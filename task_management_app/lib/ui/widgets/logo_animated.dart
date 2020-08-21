@@ -14,11 +14,18 @@ class _LogoAnimatedState extends State<LogoAnimated> with SingleTickerProviderSt
   void initState() {
     super.initState();
     controller = AnimationController(duration: const Duration(seconds: 2), vsync: this);
-    animation = Tween<double>(begin: 0, end: 300).animate(controller)
+    animation = Tween<double>(begin: 200, end: 250).animate(controller)
+      ..addStatusListener((status) {
+        if(status == AnimationStatus.completed){
+          controller.reverse();
+        }
+        else if(status == AnimationStatus.dismissed){
+          controller.forward();
+        }
+      })
       ..addListener(() {
         setState(() {
 
-          // The state that has changed here is the animation object’s value.
         });
       });
     controller.forward();
