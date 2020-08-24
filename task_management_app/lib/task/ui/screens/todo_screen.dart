@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:task_management_app/task/ui/widgets/main_scaffold.dart';
+import 'package:task_management_app/task/ui/widgets/no_tasks.dart';
 import 'package:task_management_app/task/ui/widgets/task_in_list.dart';
 import 'package:task_management_app/ui/widgets/background_gradient.dart';
 import 'package:task_management_app/ui/widgets/background_texture.dart';
@@ -28,14 +29,18 @@ class ToDoScreen extends StatelessWidget {
           margin: EdgeInsets.only(
               top: 10, bottom: 10
           ),
-          child: list,
+          child: NoTasks(),
         ),
       ],
     );
 
     return MainScaffold(
       titleText: "Por Hacer",
-      body: finalToDisplay,
+      body: Container(
+        child: finalToDisplay,
+      ),
+      actionLocation: FloatingActionButtonLocation.centerFloat,
+      bottomMargin: 40.0,
     );
   }
 }

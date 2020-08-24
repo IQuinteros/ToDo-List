@@ -6,10 +6,15 @@ class MainScaffold extends StatelessWidget {
 
   final titleText;
   final Widget body;
+  FloatingActionButtonLocation actionLocation;
+
+  final bottomMargin;
 
   MainScaffold({
     @required this.titleText,
-    @required this.body
+    @required this.body,
+    this.actionLocation = FloatingActionButtonLocation.endFloat,
+    this.bottomMargin = 0.0
   });
 
   @override
@@ -21,7 +26,10 @@ class MainScaffold extends StatelessWidget {
         ),
         drawer: SideMenu(),
         body: body,
-        floatingActionButton: FloatingAddTask()
+        floatingActionButton: FloatingAddTask(
+          bottomMargin: bottomMargin,
+        ),
+      floatingActionButtonLocation: actionLocation,
     );
   }
 }
