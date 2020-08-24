@@ -2,6 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter/animation.dart';
 
 class LogoAnimated extends StatefulWidget {
+
+  final animated;
+  final minWidth;
+  final maxWidth;
+
+  final bottomMargin;
+
+  LogoAnimated({
+    this.animated = true,
+    this.minWidth = 200.0,
+    this.maxWidth = 250.0,
+    this.bottomMargin = 200.0
+  });
+
   @override
   _LogoAnimatedState createState() => _LogoAnimatedState() ;
 }
@@ -14,7 +28,7 @@ class _LogoAnimatedState extends State<LogoAnimated> with SingleTickerProviderSt
   void initState() {
     super.initState();
     controller = AnimationController(duration: const Duration(seconds: 2), vsync: this);
-    animation = Tween<double>(begin: 200, end: 250).animate(controller)
+    animation = Tween<double>(begin: widget.minWidth, end: widget.maxWidth).animate(controller)
       ..addStatusListener((status) {
         if(status == AnimationStatus.completed){
           controller.reverse();
@@ -36,7 +50,7 @@ class _LogoAnimatedState extends State<LogoAnimated> with SingleTickerProviderSt
     return Container(
       width: animation.value,
       margin: EdgeInsets.only(
-          bottom: 200
+          bottom: widget.bottomMargin
       ),
       decoration: BoxDecoration(
           image: DecorationImage(
