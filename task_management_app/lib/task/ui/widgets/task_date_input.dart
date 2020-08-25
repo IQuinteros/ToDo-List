@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 
 class TaskDateInput extends StatefulWidget {
+
+  final bool enabled;
+
+  TaskDateInput({this.enabled = true});
+
   @override
   _TaskDateInputState createState() => _TaskDateInputState();
 }
@@ -14,6 +19,8 @@ class _TaskDateInputState extends State<TaskDateInput> {
         context: context,
         initialDate: selectedDate,
         helpText: "Escoger una fecha de vencimiento para la tarea",
+        confirmText: "CONFIRMAR",
+        cancelText: "CANCELAR",
         firstDate: DateTime(2015, 8),
         lastDate: DateTime(2101));
     if (picked != null && picked != selectedDate)
@@ -38,10 +45,16 @@ class _TaskDateInputState extends State<TaskDateInput> {
       ),
     );
 
-    final textForm = OutlineButton(
-      onPressed: (){
+    VoidCallback onPressed;
+
+    if(widget.enabled){
+      onPressed = (){
         _selectDate(context);
-      },
+      };
+    }
+
+    final textForm = OutlineButton(
+      onPressed: onPressed,
       borderSide: new BorderSide(),
       shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(25.0)),
       child: Container(
@@ -52,8 +65,9 @@ class _TaskDateInputState extends State<TaskDateInput> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              "24/08/2020",
+              "${selectedDate.day}/${selectedDate.month.toString()}/${selectedDate.year}",
               style: TextStyle(
+                color: Color.fromRGBO(10, 36, 99, 1),
                 fontFamily: "Lato",
                 fontSize: 16,
                 fontWeight: FontWeight.bold

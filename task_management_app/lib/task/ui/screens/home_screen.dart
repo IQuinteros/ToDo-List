@@ -8,21 +8,52 @@ import 'package:task_management_app/ui/widgets/background_gradient.dart';
 import 'package:task_management_app/ui/widgets/background_texture.dart';
 import 'package:task_management_app/ui/widgets/side_menu.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
+
+  List<TaskStateBarInList> _taskBars = List();
+
   @override
-  Widget build(BuildContext context) {
-    final list = ListView(
-      children: [
-        TaskStateBar(
+  _HomeScreenState createState() {
+    _taskBars.add(
+        TaskStateBarInList(
           state: TaskState.ToDo,
-        ),
-        TaskStateBar(
+        )
+    );
+    _taskBars.add(
+        TaskStateBarInList(
           state: TaskState.Doing,
-          isOpen: true,
-        ),
-        TaskStateBar(
+        )
+    );
+    _taskBars.add(
+        TaskStateBarInList(
           state: TaskState.Done,
         )
+    );
+    return _HomeScreenState();
+  }
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  @override
+  Widget build(BuildContext context) {
+
+    List<ExpansionPanel> expansionPanels = List();
+
+    widget._taskBars.forEach((element) {
+      expansionPanels.add(element.build());
+    });
+
+    final list = ListView(
+      children: [
+        ExpansionPanelList(
+          expansionCallback: (int index, bool isExpanded){
+            setState(() {
+              widget._taskBars[index].isExpanded = !isExpanded;
+            });
+          },
+          children: expansionPanels,
+          animationDuration: Duration(milliseconds: 500),
+        ),
       ],
     );
 
@@ -40,7 +71,7 @@ class HomeScreen extends StatelessWidget {
 
     final scaffold = MainScaffold(
       titleText: "Tareas",
-      body: finalToDisplay,
+      body: finalToDisplay
     );
 
     return scaffold;

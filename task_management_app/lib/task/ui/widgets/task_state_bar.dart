@@ -4,6 +4,76 @@ import 'package:flutter/material.dart';
 import 'package:task_management_app/task/model/task.dart';
 import 'package:task_management_app/task/ui/widgets/task_in_list.dart';
 
+class TaskStateBarInList{
+
+  final TaskState state;
+
+  bool isExpanded = false;
+
+  String title;
+
+  TaskStateBarInList({
+    @required this.state,
+    this.isExpanded = false
+  });
+
+  ExpansionPanel build(){
+
+    switch(state){
+      case TaskState.ToDo:
+        title = "Por Hacer";
+        break;
+      case TaskState.Doing:
+        title = "En Desarrollo";
+        break;
+      case TaskState.Done:
+        title = "Terminados";
+        break;
+    }
+
+    final bar = Container(
+        alignment: Alignment.centerLeft,
+        margin: EdgeInsets.only(
+          left: 20
+        ),
+        child: Text(
+          title,
+          style: TextStyle(
+              fontSize: 16,
+              color: Color.fromRGBO(10, 36, 99, 1),
+              fontWeight: FontWeight.bold,
+              fontFamily: "Lato"
+          ),
+        )
+    );
+
+    List<Widget> tasks = List();
+
+    tasks.add(TaskInList(task: Task.generateRandomTask(),));
+    tasks.add(TaskInList(task: Task.generateRandomTask()));
+    tasks.add(TaskInList(task: Task.generateRandomTask()));
+
+    final listTasks = Container(
+      margin: EdgeInsets.only(
+        top: 5,
+        bottom: 10
+      ),
+      child: Column(
+          children: tasks
+      ),
+    );
+
+    return ExpansionPanel(
+        headerBuilder: (BuildContext context, bool isExpanded){
+          return bar;
+        },
+        body:  listTasks,
+        canTapOnHeader: true,
+        isExpanded: isExpanded
+    );
+  }
+}
+
 class TaskStateBar extends StatefulWidget {
 
   final TaskState state;
@@ -116,6 +186,30 @@ class _TaskStateBarState extends State<TaskStateBar> {
     else{
       toDisplay = bar;
     }
+
+    List<Widget> tasks = List();
+
+    int randNumber = Random().nextInt(4);
+
+    tasks.add(TaskInList());
+    tasks.add(TaskInList());
+    tasks.add(TaskInList());
+
+    final listTasks = Container(
+      margin: EdgeInsets.only(
+          top: 5
+      ),
+      child: Column(
+          children: tasks
+      ),
+    );
+
+    toDisplay = ExpansionPanel(
+      headerBuilder: (context, isExpanded){
+        return bar;
+      },
+      body: listTasks
+    );
 
     return toDisplay;
   }

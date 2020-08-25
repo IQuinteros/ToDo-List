@@ -1,6 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:task_management_app/task/model/task.dart';
+import 'package:task_management_app/task/ui/screens/view_task_screen.dart';
 
 class TaskInList extends StatefulWidget {
+  Task task;
+
+  TaskInList({
+    @required this.task
+  });
+
   @override
   _TaskInListState createState() => _TaskInListState();
 }
@@ -55,10 +63,6 @@ class _TaskInListState extends State<TaskInList> {
 
     final allContent = Container(
       padding: EdgeInsets.all(10),
-      margin: EdgeInsets.only(
-        left: 5,
-        right: 5
-      ),
       width: MediaQuery.of(context).size.width,
       height: 70,
       child: Row(
@@ -68,8 +72,7 @@ class _TaskInListState extends State<TaskInList> {
         ],
       ),
       decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.all(Radius.circular(5)),
+        color: Colors.white.withOpacity(0.7),
         boxShadow: <BoxShadow>[
           BoxShadow(
             color: Colors.black12,
@@ -80,11 +83,20 @@ class _TaskInListState extends State<TaskInList> {
       ),
     );
 
-    return InkWell(
-      child: allContent,
-      onTap: (){
-        print('Pressed');
-      },
+    return Container(
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.all(Radius.circular(5)),
+      ),
+      margin: EdgeInsets.only(
+          left: 5,
+          right: 5
+      ),
+      child: InkWell(
+        child: allContent,
+        onTap: (){
+          Navigator.push(context, MaterialPageRoute(builder: (context) => ViewTaskScreen(task: widget.task,)));
+        },
+      ),
     );
   }
 }

@@ -18,7 +18,7 @@ class _FloatingAddTaskState extends State<FloatingAddTask> {
   Widget build(BuildContext context) {
     final toDisplay = FloatingActionButton(
       onPressed: (){
-        Navigator.push(context, MaterialPageRoute(builder: (context) => AddScreen()));
+        Navigator.push(context, MaterialPageRoute(builder: (context) => AddScreen(toAdd: null,)));
       },
       tooltip: 'Añadir Tarea',
       child: Icon(Icons.add)

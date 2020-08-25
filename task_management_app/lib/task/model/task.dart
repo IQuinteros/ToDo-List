@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 
 enum TaskState{
@@ -11,7 +13,7 @@ class Task
   String id;
   String name;
   String detail;
-  String finishDate;
+  DateTime finishDate;
   String userOwner;
   TaskState status;
   String color;
@@ -25,4 +27,29 @@ class Task
     @required this.status,
     this.color
   });
+
+  static String stateToString(TaskState state){
+    switch(state){
+      case TaskState.ToDo:
+        return "Por Hacer";
+      case TaskState.Doing:
+        return "En Desarrollo";
+      case TaskState.Done:
+        return "Terminado";
+      default: return "";
+    }
+  }
+
+  static Task generateRandomTask(){
+    return Task(
+      id: "random",
+      name: "Título de Tarea " + Random().nextInt(500).toString(),
+      detail: "Descripción Completa de la tarea, con multilínea, la cual es necesaria para ver si esto funciona correctamente",
+      finishDate: DateTime.now().add(Duration(days: 4)),
+      userOwner: null,
+      status: Random().nextBool()? TaskState.ToDo : TaskState.Doing,
+      color: Random().nextBool()? "red" : "blue"
+    );
+  }
+
 }

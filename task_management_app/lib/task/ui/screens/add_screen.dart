@@ -1,25 +1,43 @@
 import 'package:flutter/material.dart';
+import 'package:task_management_app/task/model/task.dart';
 import 'package:task_management_app/task/ui/widgets/description_task_input.dart';
+import 'package:task_management_app/task/ui/widgets/more_options.dart';
 import 'package:task_management_app/task/ui/widgets/task_date_input.dart';
 import 'package:task_management_app/task/ui/widgets/task_title_input.dart';
 import 'package:task_management_app/ui/widgets/background_gradient.dart';
 import 'package:task_management_app/ui/widgets/background_texture.dart';
-import 'package:task_management_app/ui/widgets/side_menu.dart';
 
 class AddScreen extends StatefulWidget {
+
+  Task toAdd;
+
+  AddScreen({
+    @required this.toAdd
+  });
 
   @override
   _AddScreenState createState() => _AddScreenState();
 }
 
 class _AddScreenState extends State<AddScreen> {
+
+  bool _taskValid(){
+    return widget.toAdd != null;
+  }
+
   final _formKey = GlobalKey<FormState>();
 
   bool _autoValidate = false;
 
   void _validateInputs(){
     if(_formKey.currentState.validate()){
+      Navigator.of(context).pop();
 
+      Scaffold.of(context).showSnackBar(
+          SnackBar(
+            content: Text("Tarea agregada exitósamente"),
+          )
+      );
     }
     else{
       setState(() {
@@ -37,9 +55,10 @@ class _AddScreenState extends State<AddScreen> {
         key: _formKey,
         child: ListView(
           children: [
-            TaskTitleInput(),
-            DescriptionTaskInput(),
-            TaskDateInput()
+            TaskTitleInput(preText: _taskValid()? widget.toAdd.name : "",),
+            DescriptionTaskInput(preText: _taskValid()? widget.toAdd.detail : "",),
+            TaskDateInput(enabled: true,),
+            MoreOptions()
           ],
         ),
       )
@@ -47,7 +66,9 @@ class _AddScreenState extends State<AddScreen> {
 
     final bottomBtn = RaisedButton(
       color: Colors.blue,
-      onPressed: () => _validateInputs(),
+      onPressed: () => {
+        _validateInputs()
+      },
       child: Container(
         margin: EdgeInsets.only(
           top: 13,
@@ -90,7 +111,7 @@ class _AddScreenState extends State<AddScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("Añadir Tarea"),
+        title: Text(_taskValid()? "Modificar Tarea" : "Añadir Tarea"),
         shadowColor: Colors.blue,
       ),
       body: design,
