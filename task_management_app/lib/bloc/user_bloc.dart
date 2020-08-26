@@ -10,6 +10,7 @@ class UserBloc extends Bloc
     Casos de uso de la aplicación
    */
 
+
   final _cloudFirestoreRepository = UserCloudFirestoreRepository();
   final _firebaseRepository = UserFirebaseRepository();
 
@@ -40,6 +41,20 @@ class UserBloc extends Bloc
   // 3. Flujo de datos de estado
   Stream<FirebaseUser> get authStatus => _firebaseRepository.authStatus;
   Future<FirebaseUser> get currentUser => _firebaseRepository.currentUser;
+
+  // 4. Ver Datos del usuario
+  Future<User> getCurrentUser() async {
+    FirebaseUser firebaseUser = await currentUser;
+    User userRef = User(
+      id: firebaseUser.uid,
+      email: firebaseUser.email,
+      displayName: firebaseUser.displayName,
+      photoUrl: firebaseUser.photoUrl,
+    );
+    User.setCurrentUser(userRef);
+
+    return userRef;
+  }
 
   @override
   void dispose() {

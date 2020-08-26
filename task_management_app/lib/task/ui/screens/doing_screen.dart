@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:task_management_app/task/model/task.dart';
 import 'package:task_management_app/task/ui/widgets/main_scaffold.dart';
 import 'package:task_management_app/task/ui/widgets/task_in_list.dart';
 import 'package:task_management_app/ui/widgets/background_gradient.dart';
@@ -9,9 +10,9 @@ class DoingScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final list = ListView(
       children: [
-        TaskInList(),
-        TaskInList(),
-        TaskInList()
+        TaskInList(task: Task.generateRandomTask()),
+        TaskInList(task: Task.generateRandomTask()),
+        TaskInList(task: Task.generateRandomTask())
       ],
     );
 

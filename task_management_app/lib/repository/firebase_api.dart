@@ -30,7 +30,7 @@ class FirebaseAPI{
 
   // Estado de la Sesión
   Stream<FirebaseUser> _streamFirebase = FirebaseAuth.instance.onAuthStateChanged;
-  Stream<FirebaseUser> get authStatus =>_streamFirebase;
+  Stream<FirebaseUser> get authStatus => _streamFirebase;
 
   // Obtener usuario actual
   Future<FirebaseUser> get currentUser => FirebaseAuth.instance.currentUser();

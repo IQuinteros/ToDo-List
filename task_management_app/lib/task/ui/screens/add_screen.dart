@@ -148,7 +148,7 @@ class _AddScreenState extends State<AddScreen> {
           ),
           SizedBox(height: 16),
           new RaisedButton(
-            onPressed: () => Navigator.of(context).pop(false),
+            onPressed: () => Navigator.of(context).pop(true),
             child: Container(
               padding: EdgeInsets.all(10),
               child: Text("GUARDAR"),

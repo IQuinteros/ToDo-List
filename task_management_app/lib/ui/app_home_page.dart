@@ -5,6 +5,7 @@ import 'package:task_management_app/task/ui/screens/add_screen.dart';
 import 'package:task_management_app/task/ui/screens/home_screen.dart';
 import 'package:task_management_app/ui/screens/start_screen.dart';
 import 'package:task_management_app/ui/widgets/side_menu.dart';
+import 'package:task_management_app/user/model/user.dart';
 import 'package:task_management_app/user/ui/screens/user_login.dart';
 
 class AppHomePage extends StatefulWidget {
@@ -17,8 +18,6 @@ class _AppHomePageState extends State<AppHomePage> {
 
   UserBloc userBloc;
 
-  FloatingActionButton floatingActionButton;
-
   @override
   Widget build(BuildContext context) {
     userBloc = BlocProvider.of<UserBloc>(context);
@@ -30,6 +29,7 @@ class _AppHomePageState extends State<AppHomePage> {
     return StreamBuilder(
       stream: userBloc.authStatus,
       builder: (BuildContext context, AsyncSnapshot snapshot){
+        print(snapshot.connectionState.toString());
         if(snapshot.connectionState == ConnectionState.waiting){
           // Loading Widget
           return Scaffold(
@@ -44,6 +44,7 @@ class _AppHomePageState extends State<AppHomePage> {
         }
         else{
           // Run MainPage
+          User.snapshotToUser(snapshot);
           return HomeScreen();
         }
       },

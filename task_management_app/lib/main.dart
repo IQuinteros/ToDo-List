@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
     final materialApp = MaterialApp(
       initialRoute: '/',
       routes: {
-        '/': (context) => AppHomePage(),
+        '/': (context) => HomeScreen(),
         '/todo': (context) => ToDoScreen(),
         '/doing': (context) => DoingScreen(),
         '/done': (context) => DoneScreen()

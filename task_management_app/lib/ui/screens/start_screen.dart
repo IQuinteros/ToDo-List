@@ -19,12 +19,24 @@ class StartScreen extends StatelessWidget {
 
     final zeakText = BottomZeakText();
 
+    final progress = Center(
+      child: Container(
+        margin: EdgeInsets.only(
+          top: 200
+        ),
+        child: CircularProgressIndicator(
+          backgroundColor: Colors.white,
+        ),
+      ),
+    );
+
     return Container(
       child: Stack(
         children: [
           backGradient,
           texture,
           centerLogo,
+          progress,
           zeakText
         ],
       )

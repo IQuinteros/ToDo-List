@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:generic_bloc_provider/generic_bloc_provider.dart';
 import 'package:task_management_app/bloc/user_bloc.dart';
@@ -5,52 +6,67 @@ import 'package:task_management_app/task/ui/screens/home_screen.dart';
 import 'package:task_management_app/task/ui/screens/todo_screen.dart';
 import 'package:task_management_app/ui/app_home_page.dart';
 import 'package:task_management_app/ui/widgets/bottom_zeak_text.dart';
+import 'package:task_management_app/user/model/user.dart';
+import 'package:task_management_app/user/ui/screens/user_profile_screen.dart';
 
 class SideMenu extends StatelessWidget {
 
   final IMAGE_SIZE = 90.0;
 
   UserBloc userBloc;
+  User userRef = User.getCurrentUser;
 
-  @override
-  Widget build(BuildContext context) {
-
-    userBloc = BlocProvider.of<UserBloc>(context);
-
+  Widget headerContentAsync(BuildContext context){
     final profileImage = Container(
       width: IMAGE_SIZE,
       height: IMAGE_SIZE,
       decoration: BoxDecoration(
-        image: DecorationImage(
-          image: NetworkImage("https://upload.wikimedia.org/wikipedia/commons/thumb/7/7e/Circle-icons-profile.svg/1200px-Circle-icons-profile.svg.png")
-        )
+          image: DecorationImage(
+              image: NetworkImage(userRef.photoUrl),
+              fit: BoxFit.cover
+          ),
+          shape: BoxShape.circle,
+          boxShadow: <BoxShadow>[
+            BoxShadow(
+                color: Colors.blue,
+                blurRadius: 4,
+                offset: Offset(0,0)
+            )
+          ]
       ),
     );
+
 
     final nameText = Container(
-      margin: EdgeInsets.only(
-        top: 10
-      ),
-      child: Text(
-        "Nombre y Apellido",
-        style: TextStyle(
-          color: Colors.white,
-          fontFamily: "Lato",
-          fontSize: 20,
-          fontWeight: FontWeight.bold,
+        margin: EdgeInsets.only(
+            top: 10
         ),
-        textAlign: TextAlign.start,
+        child: Text(
+          userRef.displayName,
+          style: TextStyle(
+            color: Colors.white,
+            fontFamily: "Lato",
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+          ),
+          textAlign: TextAlign.start,
+        )
+    );
+
+    final editIcon = InkWell(
+      onTap: (){
+        Navigator.push(context, MaterialPageRoute(builder: (context) => UserProfileScreen()));
+      },
+      child: Container(
+          padding: EdgeInsets.all(10),
+          child: Icon(
+            Icons.edit,
+            color: Colors.white,
+          )
       ),
     );
 
-    final editIcon = Container(
-      child: Icon(
-        Icons.edit,
-        color: Colors.white,
-      )
-    );
-
-    final headerContent = Container(
+    return Container(
       child: Column(
         children: [
           Row(
@@ -58,7 +74,7 @@ class SideMenu extends StatelessWidget {
             children: [
               profileImage,
               Expanded(
-                child: Container()
+                  child: Container()
               ),
               editIcon
             ],
@@ -68,6 +84,14 @@ class SideMenu extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
       ),
     );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+
+    userBloc = BlocProvider.of<UserBloc>(context);
+
+    final headerContent = headerContentAsync(context);
 
     final textStyle = TextStyle(
       fontFamily: "Lato",
