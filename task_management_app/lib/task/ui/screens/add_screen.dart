@@ -57,7 +57,7 @@ class _AddScreenState extends State<AddScreen> {
           children: [
             TaskTitleInput(preText: _taskValid()? widget.toAdd.name : "",),
             DescriptionTaskInput(preText: _taskValid()? widget.toAdd.detail : "",),
-            TaskDateInput(enabled: true,),
+            TaskDateInput(enabled: true, initialDate: widget.toAdd.finishDate,),
             MoreOptions()
           ],
         ),
@@ -116,5 +116,27 @@ class _AddScreenState extends State<AddScreen> {
       ),
       body: design,
     );
+  }
+
+  Future<bool> _onBackPressed() {
+    return showDialog(
+      context: context,
+      builder: (context) => new AlertDialog(
+        title: new Text('Are you sure?'),
+        content: new Text('Do you want to exit an App'),
+        actions: <Widget>[
+          new GestureDetector(
+            onTap: () => Navigator.of(context).pop(false),
+            child: Text("NO"),
+          ),
+          SizedBox(height: 16),
+          new GestureDetector(
+            onTap: () => Navigator.of(context).pop(true),
+            child: Text("YES"),
+          ),
+        ],
+      ),
+    ) ??
+        false;
   }
 }

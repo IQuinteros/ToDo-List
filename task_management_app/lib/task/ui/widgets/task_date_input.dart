@@ -3,8 +3,9 @@ import 'package:flutter/material.dart';
 class TaskDateInput extends StatefulWidget {
 
   final bool enabled;
+  final DateTime initialDate;
 
-  TaskDateInput({this.enabled = true});
+  TaskDateInput({this.enabled = true, this.initialDate});
 
   @override
   _TaskDateInputState createState() => _TaskDateInputState();
@@ -12,7 +13,7 @@ class TaskDateInput extends StatefulWidget {
 
 class _TaskDateInputState extends State<TaskDateInput> {
 
-  DateTime selectedDate = DateTime.now();
+  DateTime selectedDate;
 
   Future<void> _selectDate(BuildContext context) async {
     final DateTime picked = await showDatePicker(
@@ -31,6 +32,13 @@ class _TaskDateInputState extends State<TaskDateInput> {
 
   @override
   Widget build(BuildContext context) {
+    if(widget.initialDate != null){
+      selectedDate = widget.initialDate;
+    }
+    else{
+      selectedDate = DateTime.now();
+    }
+
     final example = Center(
       child: Column(
         mainAxisSize: MainAxisSize.min,

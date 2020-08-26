@@ -22,7 +22,7 @@ class ViewTaskScreen extends StatelessWidget {
       width: MediaQuery.of(context).size.width,
       height: 30,
       decoration: BoxDecoration(
-        color: Colors.red,
+        color: task.getColor(),
         boxShadow: <BoxShadow>[
           BoxShadow(
             color: Colors.black38,
@@ -112,12 +112,12 @@ class ViewTaskScreen extends StatelessWidget {
           child: ListView(
             children: [
               description,
-              TaskDateInput(enabled: false,),
+              TaskDateInput(enabled: false, initialDate: task.finishDate,),
               buttonEdit
             ],
           ),
         ),
-        TaskBottom()
+        TaskBottom(state: task.status,)
       ],
     );
 

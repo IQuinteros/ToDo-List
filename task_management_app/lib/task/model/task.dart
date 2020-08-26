@@ -28,6 +28,18 @@ class Task
     this.color
   });
 
+  Color getColor(){
+    switch(color){
+      case 'red': return Colors.red;
+      case 'yellow': return Colors.yellow;
+      case 'blue': return Colors.blue;
+      case 'green': return Colors.green;
+      case 'purple': return Colors.purple;
+      case 'orange': return Colors.orange;
+      default: return Colors.blue;
+    }
+  }
+
   static String stateToString(TaskState state){
     switch(state){
       case TaskState.ToDo:
@@ -48,7 +60,7 @@ class Task
       finishDate: DateTime.now().add(Duration(days: 4)),
       userOwner: null,
       status: Random().nextBool()? TaskState.ToDo : TaskState.Doing,
-      color: Random().nextBool()? "red" : "blue"
+      color: Random().nextBool()? "red" : Random().nextBool()? "blue" : Random().nextBool()? "orange" : Random().nextBool()? "green" : "purple"
     );
   }
 
