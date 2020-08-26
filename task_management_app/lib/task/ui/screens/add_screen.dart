@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:task_management_app/task/model/task.dart';
 import 'package:task_management_app/task/ui/widgets/description_task_input.dart';
@@ -57,7 +58,7 @@ class _AddScreenState extends State<AddScreen> {
           children: [
             TaskTitleInput(preText: _taskValid()? widget.toAdd.name : "",),
             DescriptionTaskInput(preText: _taskValid()? widget.toAdd.detail : "",),
-            TaskDateInput(enabled: true, initialDate: widget.toAdd.finishDate,),
+            TaskDateInput(enabled: true, initialDate: _taskValid()? widget.toAdd.finishDate : null,),
             MoreOptions()
           ],
         ),
@@ -109,30 +110,50 @@ class _AddScreenState extends State<AddScreen> {
       ],
     );
 
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(_taskValid()? "Modificar Tarea" : "Añadir Tarea"),
-        shadowColor: Colors.blue,
+    return WillPopScope(
+      onWillPop: _onBackPressed,
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text(_taskValid()? "Modificar Tarea" : "Añadir Tarea"),
+          shadowColor: Colors.blue,
+          leading: new IconButton(
+            icon: new Icon(Icons.arrow_back),
+            onPressed: () async {
+              if(await _onBackPressed()) {
+                Navigator.of(context).pop();
+              }
+            },
+          ),
+        ),
+        body: design,
       ),
-      body: design,
     );
   }
+
+
 
   Future<bool> _onBackPressed() {
     return showDialog(
       context: context,
       builder: (context) => new AlertDialog(
-        title: new Text('Are you sure?'),
-        content: new Text('Do you want to exit an App'),
+        title: new Text('Salir sin Guardar'),
+        content: new Text('No has guardado los cambios'),
         actions: <Widget>[
           new GestureDetector(
-            onTap: () => Navigator.of(context).pop(false),
-            child: Text("NO"),
+            onTap: () => Navigator.of(context).pop(true),
+            child: Container(
+              padding: EdgeInsets.all(10),
+              child: Text("SIN GUARDAR"),
+            ),
           ),
           SizedBox(height: 16),
-          new GestureDetector(
-            onTap: () => Navigator.of(context).pop(true),
-            child: Text("YES"),
+          new RaisedButton(
+            onPressed: () => Navigator.of(context).pop(false),
+            child: Container(
+              padding: EdgeInsets.all(10),
+              child: Text("GUARDAR"),
+            ),
+            color: Colors.blue,
           ),
         ],
       ),
