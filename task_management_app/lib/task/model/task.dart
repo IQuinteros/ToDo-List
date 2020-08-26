@@ -1,5 +1,5 @@
 import 'dart:math';
-
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 enum TaskState{
@@ -19,11 +19,11 @@ class Task
   String color;
 
   Task({
-    @required this.id,
+    this.id,
     @required this.name,
     this.detail,
     this.finishDate,
-    @required this.userOwner,
+    this.userOwner,
     @required this.status,
     this.color
   });
@@ -38,6 +38,23 @@ class Task
       case 'orange': return Colors.orange;
       default: return Colors.blue;
     }
+  }
+
+  static List<Task> getTasksFromSnapshot(List<DocumentSnapshot> tasksSnapshot){
+    List<Task> tasks = List();
+    tasksSnapshot.forEach((element) {
+      tasks.add(Task(
+        id: element.documentID,
+        name: element['name'],
+        status: element['status'],
+        userOwner: element['userOwner'].toString(),
+        color: element['color'],
+        finishDate: element['finishDate'],
+        detail: element['detail']
+      ));
+    });
+
+    return tasks;
   }
 
   static String stateToString(TaskState state){
