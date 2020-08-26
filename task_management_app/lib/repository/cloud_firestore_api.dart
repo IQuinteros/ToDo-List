@@ -35,7 +35,7 @@ class CloudFirestoreAPI{
 
       refTask.add({
         'name': task.name,
-        'status': task.status,
+        'status': Task.stateToString(task.status),
         'detail': task.detail,
         'color': task.color,
         'finishDate': task.finishDate,

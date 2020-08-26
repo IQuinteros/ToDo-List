@@ -46,7 +46,7 @@ class Task
       tasks.add(Task(
         id: element.documentID,
         name: element['name'],
-        status: element['status'],
+        status: Task.stringToState(element['status']),
         userOwner: element['userOwner'].toString(),
         color: element['color'],
         finishDate: element['finishDate'],
@@ -57,15 +57,31 @@ class Task
     return tasks;
   }
 
+  static const TODO_TEXT = "Por Hacer";
+  static const DOING_TEXT = "En Desarrollo";
+  static const DONE_TEXT = "Terminado";
+
   static String stateToString(TaskState state){
     switch(state){
       case TaskState.ToDo:
-        return "Por Hacer";
+        return TODO_TEXT;
       case TaskState.Doing:
-        return "En Desarrollo";
+        return DOING_TEXT;
       case TaskState.Done:
-        return "Terminado";
+        return DONE_TEXT;
       default: return "";
+    }
+  }
+
+  static TaskState stringToState(String state){
+    switch(state){
+      case TODO_TEXT:
+        return TaskState.ToDo;
+      case DOING_TEXT:
+        return TaskState.Doing;
+      case DONE_TEXT:
+        return TaskState.Done;
+      default: return null;
     }
   }
 

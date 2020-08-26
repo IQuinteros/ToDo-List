@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 
 class TaskTitleInput extends StatefulWidget {
+  final TextEditingController controller;
 
-  final preText;
-
-  TaskTitleInput({this.preText = ""});
+  TaskTitleInput({this.controller});
 
   @override
   _TaskTitleInputState createState() => _TaskTitleInputState();
@@ -19,7 +18,7 @@ class _TaskTitleInputState extends State<TaskTitleInput> {
           return 'Ingresa el título de la nueva tarea';
         }
       },
-      initialValue: widget.preText,
+      controller: widget.controller,
       decoration: InputDecoration(
         prefixIcon: Icon(
           Icons.assignment_late

@@ -1,10 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:task_management_app/task/model/task.dart';
 import 'package:task_management_app/task/ui/widgets/task_color_picker.dart';
 import 'package:task_management_app/task/ui/widgets/task_state_input.dart';
 
 class MoreOptions extends StatefulWidget {
 
   bool isOpen = false;
+  final VoidCallback onOpenTap;
+
+  void Function(TaskState) onNewStatus;
+  void Function(String) onNewColor;
+
+  final Task task;
+
+  MoreOptions({this.task, this.isOpen, @required this.onOpenTap, this.onNewColor, this.onNewStatus});
 
   @override
   _MoreOptionsState createState() => _MoreOptionsState();
@@ -32,6 +41,7 @@ class _MoreOptionsState extends State<MoreOptions> {
       onTap: (){
         setState(() {
           widget.isOpen = !widget.isOpen;
+          widget.onOpenTap();
         });
       },
       child: Container(
@@ -74,8 +84,8 @@ class _MoreOptionsState extends State<MoreOptions> {
         ),
         child: Column(
           children: [
-            TaskStateInput(),
-            TaskColorPicker()
+            TaskStateInput(task: widget.task, onNewState: widget.onNewStatus,),
+            TaskColorPicker(task: widget.task, onNewColor: widget.onNewColor,)
           ],
         ),
       );

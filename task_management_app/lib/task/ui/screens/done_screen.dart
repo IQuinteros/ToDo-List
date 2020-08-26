@@ -6,6 +6,8 @@ import 'package:task_management_app/ui/widgets/background_gradient.dart';
 import 'package:task_management_app/ui/widgets/background_texture.dart';
 
 class DoneScreen extends StatelessWidget {
+
+  // TODO: Agregar el sistema de "Ver tareas DONE"
   @override
   Widget build(BuildContext context) {
     final list = ListView(

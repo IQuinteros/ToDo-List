@@ -44,7 +44,7 @@ class _AppHomePageState extends State<AppHomePage> {
         }
         else{
           // Run MainPage
-          User.snapshotToUser(snapshot);
+          User.snapshotToUser(snapshot, isCurrentUser: true);
           return HomeScreen();
         }
       },

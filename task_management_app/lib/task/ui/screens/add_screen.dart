@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:generic_bloc_provider/generic_bloc_provider.dart';
+import 'package:task_management_app/bloc/user_bloc.dart';
 import 'package:task_management_app/task/model/task.dart';
 import 'package:task_management_app/task/ui/widgets/description_task_input.dart';
 import 'package:task_management_app/task/ui/widgets/more_options.dart';
@@ -22,16 +24,38 @@ class AddScreen extends StatefulWidget {
 
 class _AddScreenState extends State<AddScreen> {
 
+  // TODO: Agregar el sistema de Añadir la tarea
+
+  bool moreOptionsOpen = false;
+  UserBloc userBloc;
+
   bool _taskValid(){
     return widget.toAdd != null;
   }
 
   final _formKey = GlobalKey<FormState>();
-
   bool _autoValidate = false;
 
-  void _validateInputs(){
+  // DATA TO ADD
+  TextEditingController title = TextEditingController();
+  TextEditingController detail = TextEditingController();
+  DateTime dateTime = DateTime.now();
+  TaskState state = TaskState.ToDo;
+  String color = "blue";
+
+  void _validateInputs() async {
     if(_formKey.currentState.validate()){
+
+      print(color);
+
+      await userBloc.updateTask(Task(
+        name: title.value.text,
+        detail: detail.value.text,
+        finishDate: dateTime,
+        status: state,
+        color: color,
+      ));
+
       Navigator.of(context).pop();
 
       Scaffold.of(context).showSnackBar(
@@ -50,16 +74,30 @@ class _AddScreenState extends State<AddScreen> {
   @override
   Widget build(BuildContext context) {
 
+    userBloc = BlocProvider.of<UserBloc>(context);
+
+    if(_taskValid()){
+      title.text = widget.toAdd.name;
+      detail.text = widget.toAdd.detail;
+    }
+    else{
+      title.text = "";
+      detail.text = "";
+    }
+
     final toDisplay = Container(
       child: Form(
         autovalidate: _autoValidate,
         key: _formKey,
         child: ListView(
           children: [
-            TaskTitleInput(preText: _taskValid()? widget.toAdd.name : "",),
-            DescriptionTaskInput(preText: _taskValid()? widget.toAdd.detail : "",),
-            TaskDateInput(enabled: true, initialDate: _taskValid()? widget.toAdd.finishDate : null,),
-            MoreOptions()
+            TaskTitleInput(controller: title,),
+            DescriptionTaskInput(controller: detail,),
+            TaskDateInput(enabled: true, initialDate: _taskValid()? widget.toAdd.finishDate : null, onNewDate: (DateTime newDateTime) => dateTime = newDateTime,),
+            MoreOptions(task: widget.toAdd, isOpen: moreOptionsOpen, onOpenTap: () => moreOptionsOpen = !moreOptionsOpen,
+              onNewColor: (String newColor) => color = newColor,
+              onNewStatus: (TaskState newState) => state = newState,
+            )
           ],
         ),
       )
@@ -67,8 +105,8 @@ class _AddScreenState extends State<AddScreen> {
 
     final bottomBtn = RaisedButton(
       color: Colors.blue,
-      onPressed: () => {
-        _validateInputs()
+      onPressed: () {
+        _validateInputs();
       },
       child: Container(
         margin: EdgeInsets.only(

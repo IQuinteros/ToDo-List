@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 
 class DescriptionTaskInput extends StatefulWidget {
 
-  final preText;
+  TextEditingController controller;
 
-  DescriptionTaskInput({this.preText = ""});
+  DescriptionTaskInput({this.controller});
 
   @override
   _DescriptionTaskInputState createState() => _DescriptionTaskInputState();
@@ -19,7 +19,7 @@ class _DescriptionTaskInputState extends State<DescriptionTaskInput> {
           return 'Ingresa una descripción para la tarea';
         }
       },
-      initialValue: widget.preText,
+      controller: widget.controller,
       keyboardType: TextInputType.multiline,
       maxLines: 7,
       minLines: 1,

@@ -10,6 +10,8 @@ import 'package:task_management_app/ui/widgets/side_menu.dart';
 
 class HomeScreen extends StatefulWidget {
 
+  // TODO: Agregar el sistema de "Ver tareas"
+
   List<TaskStateBarInList> _taskBars = List();
 
   @override

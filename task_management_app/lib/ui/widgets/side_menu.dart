@@ -207,7 +207,7 @@ class SideMenu extends StatelessWidget {
                           child: Text('Aceptar'),
                           onPressed: (){
                             userBloc.signOut();
-                            Navigator.of(context).pushNamedAndRemoveUntil('/', (Route<dynamic> route) => false);
+                            Navigator.of(context).pushNamedAndRemoveUntil('/init', (Route<dynamic> route) => false);
 
                           },
                         ),

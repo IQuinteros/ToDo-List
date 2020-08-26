@@ -7,6 +7,8 @@ import 'package:task_management_app/ui/widgets/background_gradient.dart';
 import 'package:task_management_app/ui/widgets/background_texture.dart';
 
 class ToDoScreen extends StatelessWidget {
+  // TODO: Agregar el sistema de "Ver tareas TODO"
+
   @override
   Widget build(BuildContext context) {
 

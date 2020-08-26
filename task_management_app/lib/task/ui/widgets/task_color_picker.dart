@@ -1,7 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:task_management_app/task/model/task.dart';
 
 class TaskColorPicker extends StatefulWidget {
+
+  final Task task;
+
   String value = "blue";
+  void Function(String) onNewColor;
+
+  TaskColorPicker({this.task, this.onNewColor});
 
   @override
   _TaskColorPickerState createState() => _TaskColorPickerState();
@@ -9,8 +16,19 @@ class TaskColorPicker extends StatefulWidget {
 
 class _TaskColorPickerState extends State<TaskColorPicker> {
 
+  String _currentValue(){
+    if(widget.task != null){
+      return widget.task.color;
+    }
+    else{
+      return widget.value;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    widget.onNewColor(_currentValue());
+
     final titleText = Container(
       margin: EdgeInsets.only(
         top: 10
@@ -43,60 +61,66 @@ class _TaskColorPickerState extends State<TaskColorPicker> {
           ColorBox(
             color: Colors.red,
             value: "red",
-            selectedValue: widget.value,
+            selectedValue: _currentValue(),
             onTap: (){
               setState(() {
                 widget.value = "red";
+                widget.onNewColor(widget.value);
               });
             },
           ),
           ColorBox(
             color: Colors.yellow,
             value: "yellow",
-            selectedValue: widget.value,
+            selectedValue: _currentValue(),
             onTap: (){
               setState(() {
                 widget.value = "yellow";
+                widget.onNewColor(widget.value);
               });
             },
           ),
           ColorBox(
             color: Colors.blue,
             value: "blue",
-            selectedValue: widget.value,
+            selectedValue: _currentValue(),
             onTap: (){
               setState(() {
                 widget.value = "blue";
+                widget.onNewColor(widget.value);
               });
             },
           ),
           ColorBox(
             color: Colors.green,
             value: "green",
-            selectedValue: widget.value,
+            selectedValue: _currentValue(),
             onTap: (){
               setState(() {
                 widget.value = "green";
+                widget.onNewColor(widget.value);
               });
             },
           ),
           ColorBox(
             color: Colors.purple,
             value: "purple",
-            selectedValue: widget.value,
+            selectedValue: _currentValue(),
             onTap: (){
               setState(() {
                 widget.value = "purple";
+                widget.onNewColor(widget.value);
               });
             },
           ),
           ColorBox(
             color: Colors.orange,
             value: "orange",
-            selectedValue: widget.value,
+            selectedValue: _currentValue(),
             onTap: (){
               setState(() {
                 widget.value = "orange";
+                widget.onNewColor(widget.value);
               });
             },
           )

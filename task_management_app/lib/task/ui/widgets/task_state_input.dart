@@ -1,18 +1,40 @@
 import 'package:flutter/material.dart';
+import 'package:task_management_app/task/model/task.dart';
 
 class TaskStateInput extends StatefulWidget {
+  final Task task;
+
+  void Function(TaskState) onNewState;
+
+  TaskStateInput({this.task, this.onNewState});
+
+  TaskState selectedValue = TaskState.ToDo;
+
+  TaskState initValue(){
+    if(task != null){
+      return task.status;
+    }
+    else{
+      return TaskState.ToDo;
+    }
+  }
+
   @override
-  _TaskStateInputState createState() => _TaskStateInputState();
+  _TaskStateInputState createState(){
+    selectedValue = initValue();
+    return _TaskStateInputState();
+  }
 }
 
 class _TaskStateInputState extends State<TaskStateInput> {
-  String dropdownValue = 'Para Hacer';
 
   @override
   Widget build(BuildContext context) {
 
+    widget.onNewState(widget.selectedValue);
+
     final formField = DropdownButtonFormField<String>(
-      value: dropdownValue,
+      value: Task.stateToString(widget.selectedValue),
       icon: Icon(Icons.arrow_downward),
       iconSize: 24,
       elevation: 16,
@@ -20,10 +42,11 @@ class _TaskStateInputState extends State<TaskStateInput> {
 
       onChanged: (String newValue) {
         setState(() {
-          dropdownValue = newValue;
+          widget.selectedValue = Task.stringToState(newValue);
+          widget.onNewState(widget.selectedValue);
         });
       },
-      items: <String>['Para Hacer', 'En Desarrollo', 'Terminado']
+      items: <String>[Task.TODO_TEXT, Task.DOING_TEXT, Task.DONE_TEXT]
           .map<DropdownMenuItem<String>>((String value) {
         return DropdownMenuItem<String>(
           value: value,

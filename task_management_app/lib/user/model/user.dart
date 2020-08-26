@@ -10,7 +10,6 @@ class User
   static clearCurrentUser() => currentUser = null;
 
   static User snapshotToUser(AsyncSnapshot snapshot, {bool isCurrentUser = true}){
-
     User user = User(
       id: snapshot.data.uid,
       photoUrl: snapshot.data.photoUrl,

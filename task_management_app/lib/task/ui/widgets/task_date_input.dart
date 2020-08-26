@@ -5,7 +5,9 @@ class TaskDateInput extends StatefulWidget {
   final bool enabled;
   final DateTime initialDate;
 
-  TaskDateInput({this.enabled = true, this.initialDate});
+  void Function(DateTime) onNewDate;
+
+  TaskDateInput({this.enabled = true, this.initialDate, this.onNewDate});
 
   @override
   _TaskDateInputState createState() => _TaskDateInputState();
@@ -27,6 +29,7 @@ class _TaskDateInputState extends State<TaskDateInput> {
     if (picked != null && picked != selectedDate)
       setState(() {
         selectedDate = picked;
+        widget.onNewDate(picked);
       });
   }
 
@@ -58,6 +61,7 @@ class _TaskDateInputState extends State<TaskDateInput> {
     if(widget.enabled){
       onPressed = (){
         _selectDate(context);
+        widget.onNewDate(selectedDate);
       };
     }
 
