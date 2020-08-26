@@ -10,34 +10,40 @@ import 'package:task_management_app/ui/widgets/side_menu.dart';
 
 class HomeScreen extends StatefulWidget {
 
-  // TODO: Agregar el sistema de "Ver tareas"
-
   List<TaskStateBarInList> _taskBars = List();
 
   @override
   _HomeScreenState createState() {
-    _taskBars.add(
-        TaskStateBarInList(
-          state: TaskState.ToDo,
-        )
-    );
-    _taskBars.add(
-        TaskStateBarInList(
-          state: TaskState.Doing,
-        )
-    );
-    _taskBars.add(
-        TaskStateBarInList(
-          state: TaskState.Done,
-        )
-    );
     return _HomeScreenState();
   }
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  List<TaskStateBarInList> _taskBars = List();
+
   @override
   Widget build(BuildContext context) {
+
+    if(widget._taskBars.length <= 0) {
+      widget._taskBars.add(
+          TaskStateBarInList(
+              state: TaskState.ToDo,
+              context: context
+          )
+      );
+      widget._taskBars.add(
+          TaskStateBarInList(
+              state: TaskState.Doing,
+              context: context
+          )
+      );
+      widget._taskBars.add(
+          TaskStateBarInList(
+              state: TaskState.Done,
+              context: context
+          )
+      );
+    }
 
     List<ExpansionPanel> expansionPanels = List();
 
@@ -47,15 +53,20 @@ class _HomeScreenState extends State<HomeScreen> {
 
     final list = ListView(
       children: [
-        ExpansionPanelList(
-          expansionCallback: (int index, bool isExpanded){
-            setState(() {
-              widget._taskBars[index].isExpanded = !isExpanded;
-            });
-          },
-          children: expansionPanels,
-          animationDuration: Duration(milliseconds: 500),
-        ),
+        Container(
+          padding: EdgeInsets.only(
+            bottom: 30
+          ),
+          child: ExpansionPanelList(
+            expansionCallback: (int index, bool isExpanded){
+              setState(() {
+                widget._taskBars[index].isExpanded = !isExpanded;
+              });
+            },
+            children: expansionPanels,
+            animationDuration: Duration(milliseconds: 500),
+          ),
+        )
       ],
     );
 

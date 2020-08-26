@@ -69,6 +69,8 @@ class UserBloc extends Bloc
 
   // 6. Registrar Tarea
   Future<void> updateTask(Task task) async => _tasksCloudFirestoreRepository.updateTask(task);
+  // 7. Modificar Tarea
+  Future<void> setDataTask(Task newData) async => _tasksCloudFirestoreRepository.setDataTask(newData);
 
   @override
   void dispose() {

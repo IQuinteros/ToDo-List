@@ -49,7 +49,7 @@ class Task
         status: Task.stringToState(element['status']),
         userOwner: element['userOwner'].toString(),
         color: element['color'],
-        finishDate: element['finishDate'],
+        finishDate: new DateTime.fromMillisecondsSinceEpoch(element['finishDate']),
         detail: element['detail']
       ));
     });

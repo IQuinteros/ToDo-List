@@ -7,46 +7,48 @@ class TaskDateInput extends StatefulWidget {
 
   void Function(DateTime) onNewDate;
 
-  TaskDateInput({this.enabled = true, this.initialDate, this.onNewDate});
+  DateTime selectedDate;
+
+  TaskDateInput({this.enabled = true, this.initialDate, this.onNewDate}){
+    selectedDate = initialDate;
+  }
 
   @override
-  _TaskDateInputState createState() => _TaskDateInputState();
+  _TaskDateInputState createState() {
+    return _TaskDateInputState();
+  }
 }
 
 class _TaskDateInputState extends State<TaskDateInput> {
 
-  DateTime selectedDate;
-
   Future<void> _selectDate(BuildContext context) async {
     final DateTime picked = await showDatePicker(
         context: context,
-        initialDate: selectedDate,
+        initialDate: widget.selectedDate,
         helpText: "Escoger una fecha de vencimiento para la tarea",
         confirmText: "CONFIRMAR",
         cancelText: "CANCELAR",
         firstDate: DateTime(2015, 8),
         lastDate: DateTime(2101));
-    if (picked != null && picked != selectedDate)
+    if (picked != null && picked != widget.selectedDate)
       setState(() {
-        selectedDate = picked;
+        widget.selectedDate = picked;
         widget.onNewDate(picked);
       });
   }
 
   @override
   Widget build(BuildContext context) {
-    if(widget.initialDate != null){
-      selectedDate = widget.initialDate;
-    }
-    else{
-      selectedDate = DateTime.now();
-    }
+
+    try {
+      widget.onNewDate(widget.selectedDate);
+    }catch(e){}
 
     final example = Center(
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
-          Text("${selectedDate.toLocal()}".split(' ')[0]),
+          Text("${widget.selectedDate.toLocal()}".split(' ')[0]),
           SizedBox(height: 20.0,),
           RaisedButton(
             onPressed: () => _selectDate(context),
@@ -61,7 +63,7 @@ class _TaskDateInputState extends State<TaskDateInput> {
     if(widget.enabled){
       onPressed = (){
         _selectDate(context);
-        widget.onNewDate(selectedDate);
+        widget.onNewDate(widget.selectedDate);
       };
     }
 
@@ -77,7 +79,7 @@ class _TaskDateInputState extends State<TaskDateInput> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              "${selectedDate.day}/${selectedDate.month.toString()}/${selectedDate.year}",
+              "${widget.selectedDate.day}/${widget.selectedDate.month.toString()}/${widget.selectedDate.year}",
               style: TextStyle(
                 color: Color.fromRGBO(10, 36, 99, 1),
                 fontFamily: "Lato",

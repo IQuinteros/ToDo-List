@@ -14,11 +14,11 @@ class _DescriptionTaskInputState extends State<DescriptionTaskInput> {
   @override
   Widget build(BuildContext context) {
     final textForm = TextFormField(
-      validator: (value){
+      /*validator: (value){
         if(value.isEmpty){
           return 'Ingresa una descripción para la tarea';
         }
-      },
+      },*/
       controller: widget.controller,
       keyboardType: TextInputType.multiline,
       maxLines: 7,

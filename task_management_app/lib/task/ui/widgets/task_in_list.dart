@@ -21,7 +21,7 @@ class _TaskInListState extends State<TaskInList> {
       height: 70,
       width: 10,
       decoration: BoxDecoration(
-        color: Colors.red,
+        color: widget.task.getColor(),
         borderRadius: BorderRadius.all(Radius.circular(5))
       ),
     );
@@ -35,7 +35,7 @@ class _TaskInListState extends State<TaskInList> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-                "Nombre de Tarea",
+                widget.task.name,
               style: TextStyle(
                 color: Color.fromRGBO(10, 36, 99, 1),
                 fontFamily: "Lato",
@@ -48,7 +48,7 @@ class _TaskInListState extends State<TaskInList> {
                 top: 5
               ),
               child: Text(
-                "05/12/2020",
+                "${widget.task.finishDate.day}/${widget.task.finishDate.month}/${widget.task.finishDate.year}",
                 style: TextStyle(
                     color: Color.fromRGBO(10, 36, 99, 1),
                     fontFamily: "Lato",

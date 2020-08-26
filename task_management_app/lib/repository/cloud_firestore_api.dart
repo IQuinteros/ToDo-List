@@ -38,7 +38,7 @@ class CloudFirestoreAPI{
         'status': Task.stateToString(task.status),
         'detail': task.detail,
         'color': task.color,
-        'finishDate': task.finishDate,
+        'finishDate': task.finishDate.millisecondsSinceEpoch,
         'userOwner': _userRef
       }).then((DocumentReference dr){
         dr.get().then((DocumentSnapshot snapshot){
@@ -50,6 +50,18 @@ class CloudFirestoreAPI{
         });
       });
     });
+  }
+
+  Future<void> setDataTask(Task newData) async{
+    DocumentReference ref = _db.collection(TASKS).document(newData.id);
+
+    return await ref.setData({
+      'name': newData.name,
+      'status': Task.stateToString(newData.status),
+      'detail': newData.detail,
+      'color': newData.color,
+      'finishDate': newData.finishDate.millisecondsSinceEpoch,
+    }, merge: true);
   }
 
 }

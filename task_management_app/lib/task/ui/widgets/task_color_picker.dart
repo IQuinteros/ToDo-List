@@ -10,24 +10,27 @@ class TaskColorPicker extends StatefulWidget {
 
   TaskColorPicker({this.task, this.onNewColor});
 
-  @override
-  _TaskColorPickerState createState() => _TaskColorPickerState();
-}
-
-class _TaskColorPickerState extends State<TaskColorPicker> {
-
   String _currentValue(){
-    if(widget.task != null){
-      return widget.task.color;
+    if(task != null){
+      return task.color;
     }
     else{
-      return widget.value;
+      return "blue";
     }
   }
 
   @override
+  _TaskColorPickerState createState() {
+    value = _currentValue();
+    return _TaskColorPickerState();
+  }
+}
+
+class _TaskColorPickerState extends State<TaskColorPicker> {
+
+  @override
   Widget build(BuildContext context) {
-    widget.onNewColor(_currentValue());
+    widget.onNewColor(widget.value);
 
     final titleText = Container(
       margin: EdgeInsets.only(
@@ -61,7 +64,7 @@ class _TaskColorPickerState extends State<TaskColorPicker> {
           ColorBox(
             color: Colors.red,
             value: "red",
-            selectedValue: _currentValue(),
+            selectedValue: widget.value,
             onTap: (){
               setState(() {
                 widget.value = "red";
@@ -72,7 +75,7 @@ class _TaskColorPickerState extends State<TaskColorPicker> {
           ColorBox(
             color: Colors.yellow,
             value: "yellow",
-            selectedValue: _currentValue(),
+            selectedValue: widget.value,
             onTap: (){
               setState(() {
                 widget.value = "yellow";
@@ -83,7 +86,7 @@ class _TaskColorPickerState extends State<TaskColorPicker> {
           ColorBox(
             color: Colors.blue,
             value: "blue",
-            selectedValue: _currentValue(),
+            selectedValue: widget.value,
             onTap: (){
               setState(() {
                 widget.value = "blue";
@@ -94,7 +97,7 @@ class _TaskColorPickerState extends State<TaskColorPicker> {
           ColorBox(
             color: Colors.green,
             value: "green",
-            selectedValue: _currentValue(),
+            selectedValue: widget.value,
             onTap: (){
               setState(() {
                 widget.value = "green";
@@ -105,7 +108,7 @@ class _TaskColorPickerState extends State<TaskColorPicker> {
           ColorBox(
             color: Colors.purple,
             value: "purple",
-            selectedValue: _currentValue(),
+            selectedValue: widget.value,
             onTap: (){
               setState(() {
                 widget.value = "purple";
@@ -116,7 +119,7 @@ class _TaskColorPickerState extends State<TaskColorPicker> {
           ColorBox(
             color: Colors.orange,
             value: "orange",
-            selectedValue: _currentValue(),
+            selectedValue: widget.value,
             onTap: (){
               setState(() {
                 widget.value = "orange";

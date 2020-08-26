@@ -40,21 +40,40 @@ class _AddScreenState extends State<AddScreen> {
   TextEditingController title = TextEditingController();
   TextEditingController detail = TextEditingController();
   DateTime dateTime = DateTime.now();
-  TaskState state = TaskState.ToDo;
-  String color = "blue";
+  TaskState state;
+  String color;
 
   void _validateInputs() async {
     if(_formKey.currentState.validate()){
 
-      print(color);
+      Task newData;
 
-      await userBloc.updateTask(Task(
-        name: title.value.text,
-        detail: detail.value.text,
-        finishDate: dateTime,
-        status: state,
-        color: color,
-      ));
+      if(detail.value.text == null){
+        detail.text = "";
+      }
+
+      if(widget.toAdd == null) {
+        newData = Task(
+          name: title.value.text,
+          detail: detail.value.text,
+          finishDate: dateTime,
+          status: state,
+          color: color,
+        );
+        await userBloc.updateTask(newData);
+      }
+      else{
+        newData = Task(
+          id: widget.toAdd.id,
+          name: title.value.text,
+          detail: detail.value.text,
+          finishDate: dateTime,
+          status: state,
+          color: color,
+        );
+
+        await userBloc.setDataTask(newData);
+      }
 
       Navigator.of(context).pop();
 
@@ -76,6 +95,9 @@ class _AddScreenState extends State<AddScreen> {
 
     userBloc = BlocProvider.of<UserBloc>(context);
 
+    state = widget.toAdd != null? widget.toAdd.status : TaskState.ToDo;
+    color = widget.toAdd != null? widget.toAdd.color : "blue";
+
     if(_taskValid()){
       title.text = widget.toAdd.name;
       detail.text = widget.toAdd.detail;
@@ -93,10 +115,10 @@ class _AddScreenState extends State<AddScreen> {
           children: [
             TaskTitleInput(controller: title,),
             DescriptionTaskInput(controller: detail,),
-            TaskDateInput(enabled: true, initialDate: _taskValid()? widget.toAdd.finishDate : null, onNewDate: (DateTime newDateTime) => dateTime = newDateTime,),
+            TaskDateInput(enabled: true, initialDate: _taskValid()? widget.toAdd.finishDate : DateTime.now(), onNewDate: (DateTime newDateTime) { print('NewDate'); dateTime = newDateTime; },),
             MoreOptions(task: widget.toAdd, isOpen: moreOptionsOpen, onOpenTap: () => moreOptionsOpen = !moreOptionsOpen,
-              onNewColor: (String newColor) => color = newColor,
-              onNewStatus: (TaskState newState) => state = newState,
+              onNewColor: (String newColor) { print('NewColor'); color = newColor;},
+              onNewStatus: (TaskState newState) {print('NewStatus');  state = newState;},
             )
           ],
         ),
