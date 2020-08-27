@@ -179,9 +179,7 @@ class _AddScreenState extends State<AddScreen> {
           leading: new IconButton(
             icon: new Icon(Icons.arrow_back),
             onPressed: () async {
-              if(await _onBackPressed()) {
-                Navigator.of(context).pop();
-              }
+              await _onBackPressed();
             },
           ),
         ),
@@ -193,6 +191,11 @@ class _AddScreenState extends State<AddScreen> {
 
 
   Future<bool> _onBackPressed() {
+    if(title.text.length <= 0 && detail.text.length <= 0){
+       Navigator.of(context).pop(true);
+       return Future.value(true);
+    }
+
     return showDialog(
       context: context,
       builder: (context) => new AlertDialog(
@@ -208,7 +211,10 @@ class _AddScreenState extends State<AddScreen> {
           ),
           SizedBox(height: 16),
           new RaisedButton(
-            onPressed: () => Navigator.of(context).pop(true),
+            onPressed: () {
+              _validateInputs();
+              Navigator.of(context).pop(true);
+            },
             child: Container(
               padding: EdgeInsets.all(10),
               child: Text("GUARDAR"),

@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:task_management_app/task/model/task.dart';
 
@@ -170,23 +171,34 @@ class _ColorBoxState extends State<ColorBox> {
 
     Widget selected = Container();
 
-    if(widget.value == widget.selectedValue){
-      selected = Container(
-        margin: EdgeInsets.all(5),
-        alignment: Alignment.bottomRight,
+    bool isSelected = widget.value == widget.selectedValue;
+
+    selected = Container(
+      margin: EdgeInsets.all(5),
+      alignment: Alignment.bottomRight,
+      child: AnimatedOpacity(
+        curve: Curves.fastOutSlowIn,
+        duration: Duration(milliseconds: 500),
+        opacity: isSelected? 1 : 0,
         child: Icon(
           Icons.check_circle,
           color: Color.fromRGBO(10, 36, 99, 1),
           size: 25,
         ),
-      );
-    }
+      )
+    );
+
+    print("SELECTED:  ${isSelected.toString()}");
 
     final intContent = Stack(
       children: [
-        Container(
-          width: 150,
-          height: 150,
+        AnimatedContainer(
+          margin: EdgeInsets.all(isSelected? 0 : 5),
+          curve: Curves.fastOutSlowIn,
+          duration: Duration(milliseconds: 500),
+          alignment: Alignment.center,
+          width: isSelected? 100.0 : 120.0,
+          height: isSelected? 100.0 : 120.0,
           decoration: BoxDecoration(
               color: widget.color,
               borderRadius: BorderRadius.all(Radius.circular(10)),
@@ -209,7 +221,11 @@ class _ColorBoxState extends State<ColorBox> {
 
     final button = InkWell(
       child: allContent,
-      onTap: widget.onTap,
+      onTap: () {
+        setState(() {
+          widget.onTap();
+        });
+      },
     );
 
     return button;

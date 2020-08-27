@@ -117,7 +117,7 @@ class ViewTaskScreen extends StatelessWidget {
             ],
           ),
         ),
-        TaskBottom(state: task.status,)
+        TaskBottom(state: task.status, task: task,)
       ],
     );
 

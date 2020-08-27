@@ -28,7 +28,8 @@ class _TaskDateInputState extends State<TaskDateInput> {
         helpText: "Escoger una fecha de vencimiento para la tarea",
         confirmText: "CONFIRMAR",
         cancelText: "CANCELAR",
-        firstDate: DateTime(2015, 8),
+
+        firstDate: DateTime.now(),
         lastDate: DateTime(2101));
     if (picked != null && picked != widget.selectedDate)
       setState(() {
@@ -43,20 +44,6 @@ class _TaskDateInputState extends State<TaskDateInput> {
     try {
       widget.onNewDate(widget.selectedDate);
     }catch(e){}
-
-    final example = Center(
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: <Widget>[
-          Text("${widget.selectedDate.toLocal()}".split(' ')[0]),
-          SizedBox(height: 20.0,),
-          RaisedButton(
-            onPressed: () => _selectDate(context),
-            child: Text('Select date'),
-          ),
-        ],
-      ),
-    );
 
     VoidCallback onPressed;
 
@@ -90,13 +77,6 @@ class _TaskDateInputState extends State<TaskDateInput> {
           ],
         )
       ),
-    );
-
-    final datePicker = CalendarDatePicker(
-      firstDate: DateTime.now(),
-      lastDate: DateTime(2100),
-      initialDate: DateTime.now(),
-      onDateChanged: (DateTime date) {},
     );
 
     return Container(

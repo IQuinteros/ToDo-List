@@ -50,12 +50,24 @@ class _TaskStateInputState extends State<TaskStateInput> {
           .map<DropdownMenuItem<String>>((String value) {
         return DropdownMenuItem<String>(
           value: value,
-          child: Text(value),
+          child: Container(
+            margin: EdgeInsets.only(
+              left: 10
+            ),
+            child: Text(
+              value,
+              style: TextStyle(
+                  fontFamily: "Lato",
+                  fontSize: 15
+              ),
+            ),
+          )
         );
       }).toList(),
 
       decoration: InputDecoration(
         hintText: "Título de la Tarea",
+        helperText: "Estado de la tarea",
         focusColor: Colors.blue,
         filled: true,
         border: OutlineInputBorder(

@@ -36,4 +36,6 @@ class TaskCloudFirestoreRepository{
 
   Future<void> setDataTask(Task newData) async => _cloudFirestoreAPI.setDataTask(newData);
 
+
+
 }

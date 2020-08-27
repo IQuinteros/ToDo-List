@@ -83,7 +83,7 @@ class _TaskInListState extends State<TaskInList> {
       ),
     );
 
-    return Container(
+    final toReturn = Container(
       decoration: BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(5)),
       ),
@@ -96,6 +96,59 @@ class _TaskInListState extends State<TaskInList> {
         onTap: (){
           Navigator.push(context, MaterialPageRoute(builder: (context) => ViewTaskScreen(task: widget.task,)));
         },
+      ),
+    );
+
+    return Draggable(
+      child: toReturn,
+      childWhenDragging: Container(
+        margin: EdgeInsets.only(
+          left: 10,
+          right: 10
+        ),
+        width: MediaQuery.of(context).size.width,
+        height: 50,
+        decoration: BoxDecoration(
+          color: Colors.black38,
+          borderRadius: BorderRadius.all(Radius.circular(5))
+        ),
+      ),
+      feedback: Container(
+        child: Container(
+          margin: EdgeInsets.all(10),
+          child: Row(
+            children: [
+              colorBox,
+              Container(
+                child: Text(
+                  widget.task.name,
+                  style: TextStyle(
+                      color: Color.fromRGBO(10, 36, 99, 1),
+                      fontFamily: "Lato",
+                      fontWeight: FontWeight.bold,
+                      fontSize: 17
+                  ),
+                ),
+                margin: EdgeInsets.only(
+                  left: 10
+                ),
+              )
+            ],
+          ),
+        ),
+        width: 250,
+        height: 80,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.all(Radius.circular(20)),
+          boxShadow: <BoxShadow>[
+            BoxShadow(
+              color: Colors.black38,
+              blurRadius: 2,
+              offset: Offset(0,1)
+            )
+          ]
+        ),
       ),
     );
   }

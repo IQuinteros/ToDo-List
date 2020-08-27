@@ -1,11 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:generic_bloc_provider/generic_bloc_provider.dart';
+import 'package:task_management_app/bloc/user_bloc.dart';
 import 'package:task_management_app/task/model/task.dart';
+import 'package:task_management_app/user/model/user.dart';
 
 class TaskBottom extends StatefulWidget {
   TaskState state;
 
+  Task task;
+
   TaskBottom({
-    this.state = TaskState.Doing
+    this.state = TaskState.Doing,
+    @required this.task
   });
 
   @override
@@ -14,8 +20,19 @@ class TaskBottom extends StatefulWidget {
 
 class _TaskBottomState extends State<TaskBottom> {
 
+  UserBloc userBloc;
+  User user;
+
+  void _setTaskState(TaskState newState){
+    widget.task.status = newState;
+    userBloc.setDataTask(widget.task);
+  }
+
   @override
   Widget build(BuildContext context) {
+    userBloc = BlocProvider.of<UserBloc>(context);
+    user = User.getCurrentUser;
+
     final backButton = InkWell(
       onTap:(){
         Navigator.of(context).pop();
@@ -46,6 +63,7 @@ class _TaskBottomState extends State<TaskBottom> {
                           setState(() {
                             widget.state = TaskState.ToDo;
                           });
+                          _setTaskState(TaskState.ToDo);
                           Navigator.of(context).pop();
                         },
                       ),
@@ -56,6 +74,7 @@ class _TaskBottomState extends State<TaskBottom> {
                           setState(() {
                             widget.state = TaskState.Doing;
                           });
+                          _setTaskState(TaskState.Doing);
                           Navigator.of(context).pop();
                         },
                       ),
@@ -66,6 +85,7 @@ class _TaskBottomState extends State<TaskBottom> {
                           setState(() {
                             widget.state = TaskState.Done;
                           });
+                          _setTaskState(TaskState.Done);
                           Navigator.of(context).pop();
                         },
                       ),

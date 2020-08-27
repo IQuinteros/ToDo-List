@@ -91,7 +91,7 @@ class _MoreOptionsState extends State<MoreOptions> {
       );
     }
 
-    return Container(
+    final allContent = Container(
       margin: EdgeInsets.only(
         top: 20
       ),
@@ -109,5 +109,7 @@ class _MoreOptionsState extends State<MoreOptions> {
         ],
       )
     );
+
+    return allContent;
   }
 }

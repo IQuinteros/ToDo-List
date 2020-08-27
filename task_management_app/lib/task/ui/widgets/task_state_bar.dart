@@ -57,58 +57,80 @@ class TaskStateBarInList{
         break;
     }
 
-    final bar = Container(
-        alignment: Alignment.centerLeft,
-        margin: EdgeInsets.only(
-          left: 20
-        ),
-        child: Text(
-          title,
-          style: TextStyle(
-              fontSize: 16,
-              color: Color.fromRGBO(10, 36, 99, 1),
-              fontWeight: FontWeight.bold,
-              fontFamily: "Lato"
-          ),
-        )
-    );
-
-
-    final listTasks = Container(
-      margin: EdgeInsets.only(
-        top: 5,
-        bottom: 10
-      ),
-      child: StreamBuilder(
-        stream: state == TaskState.ToDo? userBloc.myToDoTasksListStream(user.id) :
-                state == TaskState.Doing? userBloc.myDoingTasksListStream(user.id) :
-                userBloc.myDoneTasksListStream(user.id),
-        builder: (BuildContext ct, AsyncSnapshot snapshot){
-          if(snapshot.connectionState == ConnectionState.waiting){
-            return Loading();
-          }
-          else if(snapshot.connectionState == ConnectionState.none){
-            return Loading();
-          }
-          else if(snapshot.data.documents.length <= 0 || snapshot.hasError){
-            return Container(
-              padding: EdgeInsets.all(10),
-              child: Text(
-                "No hay tareas aquí",
-                style: TextStyle(
+    final bar = DragTarget(
+      builder: (BuildContext context, List<String> incoming, List rejected){
+        return Container(
+            alignment: Alignment.centerLeft,
+            margin: EdgeInsets.only(
+                left: 20
+            ),
+            child: Text(
+              title,
+              style: TextStyle(
+                  fontSize: 16,
                   color: Color.fromRGBO(10, 36, 99, 1),
-                  fontFamily: "Lato",
-                  fontSize: 14,
-                ),
+                  fontWeight: FontWeight.bold,
+                  fontFamily: "Lato"
               ),
-            );
-          }
-          else{
-            return listDisplay(snapshot);
-          }
-        },
-      )
+            )
+        );
+      },
+      onWillAccept: (data) {
+        print('willAccept');
+        return true;
+      },
+      onAccept: (data){
+        print('hola');
+      },
     );
+
+    Widget loading = Container(
+      padding: EdgeInsets.all(10),
+      child: Loading(),
+    );
+
+    Widget listTasks;
+
+    if(isExpanded){
+      listTasks = Container(
+          margin: EdgeInsets.only(
+              top: 5,
+              bottom: 10
+          ),
+          child: StreamBuilder(
+            stream: state == TaskState.ToDo? userBloc.myToDoTasksListStream(user.id) :
+            state == TaskState.Doing? userBloc.myDoingTasksListStream(user.id) :
+            userBloc.myDoneTasksListStream(user.id),
+            builder: (BuildContext ct, AsyncSnapshot snapshot){
+              if(snapshot.connectionState == ConnectionState.waiting){
+                return loading;
+              }
+              else if(snapshot.connectionState == ConnectionState.none){
+                return loading;
+              }
+              else if(snapshot.data.documents.length <= 0 || snapshot.hasError){
+                return Container(
+                  padding: EdgeInsets.all(10),
+                  child: Text(
+                    "No hay tareas aquí",
+                    style: TextStyle(
+                      color: Color.fromRGBO(10, 36, 99, 1),
+                      fontFamily: "Lato",
+                      fontSize: 14,
+                    ),
+                  ),
+                );
+              }
+              else{
+                return listDisplay(snapshot);
+              }
+            },
+          )
+      );
+    }
+    else{
+      listTasks = Container();
+    }
 
     return ExpansionPanel(
         headerBuilder: (BuildContext context, bool isExpanded){
