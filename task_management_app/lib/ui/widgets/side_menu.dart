@@ -204,17 +204,19 @@ class SideMenu extends StatelessWidget {
                       content: Text('¿Quiere cerrar sesión?'),
                       actions: <Widget>[
                         FlatButton(
-                          child: Text('Aceptar'),
+                          child: Text('Cancelar'),
                           onPressed: (){
-                            userBloc.signOut();
-                            Navigator.of(context).pushNamedAndRemoveUntil('/init', (Route<dynamic> route) => false);
 
+                            Navigator.of(context).pop();
                           },
                         ),
                         RaisedButton(
-                          child: Text('Cancelar'),
+                          child: Text('Aceptar'),
                           onPressed: (){
-                            Navigator.of(context).pop();
+                            userBloc.signOut();
+                            User.clearCurrentUser();
+                            Navigator.of(context).pushNamedAndRemoveUntil('/init', (Route<dynamic> route) => false);
+
                           },
                           color: Colors.blue,
                           textColor: Colors.white,

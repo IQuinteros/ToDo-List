@@ -14,16 +14,55 @@ class CloudFirestoreAPI{
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
   // Add or Update Data
-  void updateUserData(User user) async {
+  Future<bool> updateUserData(User user) async {
     DocumentReference ref =_db.collection(USERS).document(user.id);
 
-    return await ref.setData({
+    bool isNew = false;
+
+    try {
+      await ref.get().then((document){
+        print(document.data.length);
+      });
+    }catch(e){
+      isNew = true;
+      print('ES NUEVO USUARIO');
+    }
+
+    await ref.setData({
       'id': user.id,
       'name': user.displayName,
       'email': user.email,
       'photoUrl': user.photoUrl,
       'myTasks': user.myTasks,
       'lastSignIn': DateTime.now()
+    }, merge: true);
+
+    return isNew;
+  }
+
+  Future<bool> hasNamesData(User user) async {
+    DocumentReference ref =_db.collection(USERS).document(user.id);
+
+    bool hasData = false;
+
+    try {
+      ref.get().then((value) {
+        if(value.data['firstName'].toString().length > 0 && value.data['lastName'].toString().length > 0){
+          hasData = true;
+        }
+      });
+    }
+    catch(e){}
+
+    return hasData;
+  }
+
+  Future<void> updateUserNames(String name, String lastName, String id) async{
+    DocumentReference ref = _db.collection(USERS).document(id);
+
+    return await ref.setData({
+      'firstName': name,
+      'lastName': lastName
     }, merge: true);
   }
 

@@ -6,6 +6,8 @@ class UserCloudFirestoreRepository{
 
   final _cloudFirestoreAPI = CloudFirestoreAPI();
 
-  void updateUserDataFirestore(User user) => _cloudFirestoreAPI.updateUserData(user);
+  Future<bool> updateUserDataFirestore(User user) => _cloudFirestoreAPI.updateUserData(user);
+
+  Future<void> updateUserNames(String name, String lastName, String id) async => _cloudFirestoreAPI.updateUserNames(name, lastName, id);
 
 }

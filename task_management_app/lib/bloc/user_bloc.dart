@@ -22,21 +22,25 @@ class UserBloc extends Bloc
   Future<FirebaseUser> _signIn() async => _firebaseRepository.signIn();
 
   // 1.1. Registrar usuario en base de datos
-  void _updateUserData(User user) => _cloudFirestoreRepository.updateUserDataFirestore(user);
+  Future<bool> _updateUserData(User user) => _cloudFirestoreRepository.updateUserDataFirestore(user);
 
   // Iniciar Sesión Completo
-  Future<void> signInAndUpdate() async {
-    await _signIn().then((FirebaseUser user) =>
-        _updateUserData(
+  Future<bool> signInAndUpdate() async {
+    bool isNew = false;
+
+    await _signIn().then((FirebaseUser user) async {
+
+      isNew = await _updateUserData(
           User(
             id: user.uid,
             displayName: user.displayName,
             email: user.email,
-            photoUrl: user.photoUrl
+            photoUrl: user.photoUrl,
           )
-        )
+      );
+    }
     );
-    return;
+    return isNew;
   }
 
   // 2. Cerrar Sesión
@@ -71,6 +75,9 @@ class UserBloc extends Bloc
   Future<void> updateTask(Task task) async => _tasksCloudFirestoreRepository.updateTask(task);
   // 7. Modificar Tarea
   Future<void> setDataTask(Task newData) async => _tasksCloudFirestoreRepository.setDataTask(newData);
+
+  // 8. Actualizar Nombre y Apellido
+  Future<void> updateUserNames(String name, String lastName, String id) async => _cloudFirestoreRepository.updateUserNames(name, lastName, id);
 
   @override
   void dispose() {
