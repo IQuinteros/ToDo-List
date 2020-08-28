@@ -14,8 +14,19 @@ class UserProfileScreen extends StatefulWidget {
 
   final keyForm = GlobalKey<FormState>();
 
+  User initUser;
+
+  UserProfileScreen();
+
   @override
-  _UserProfileScreenState createState() => _UserProfileScreenState();
+  _UserProfileScreenState createState() {
+    initUser = User.getCurrentUser;
+
+    nameController.text = initUser.firstName;
+    lastNameController.text = initUser.lastName;
+
+    return _UserProfileScreenState();
+  }
 }
 
 class _UserProfileScreenState extends State<UserProfileScreen> {
@@ -40,6 +51,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
           await userBloc.updateUserNames(widget.nameController.value.text,
               widget.lastNameController.value.text,
               user.id);
+          await userBloc.getCurrentUser();
 
           Navigator.of(context).pop();
         }

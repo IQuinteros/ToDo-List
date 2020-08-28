@@ -57,6 +57,23 @@ class CloudFirestoreAPI{
     return hasData;
   }
 
+  Future<UserNames> getUserNames(User user) async{
+    DocumentReference ref =_db.collection(USERS).document(user.id);
+
+    String names = "";
+    String lastNames = "";
+
+    try {
+      await ref.get().then((value) {
+        names = value.data['firstName'];
+        lastNames = value.data['lastName'];
+      });
+    }
+    catch(e){}
+
+    return UserNames(names, lastNames);
+  }
+
   Future<void> updateUserNames(String name, String lastName, String id) async{
     DocumentReference ref = _db.collection(USERS).document(id);
 
@@ -64,6 +81,20 @@ class CloudFirestoreAPI{
       'firstName': name,
       'lastName': lastName
     }, merge: true);
+  }
+
+  Future<void> updateStateTask(String idTask, TaskState newState) async{
+    DocumentReference ref = _db.collection(TASKS).document(idTask);
+
+    return await ref.setData({
+      'status': Task.stateToString(newState)
+    }, merge: true);
+  }
+
+  Future<void> removeTask(Task taskRef){
+    DocumentReference ref = _db.collection(TASKS).document(taskRef.id);
+
+    return ref.delete();
   }
 
   Future<void> updateTask(Task task) async{

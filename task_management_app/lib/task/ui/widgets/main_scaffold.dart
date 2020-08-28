@@ -19,7 +19,8 @@ class MainScaffold extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+
+    final scaffold = Scaffold(
         appBar: AppBar(
           title: Text(titleText),
           shadowColor: Colors.blue,
@@ -31,5 +32,7 @@ class MainScaffold extends StatelessWidget {
         ),
       floatingActionButtonLocation: actionLocation,
     );
+
+    return scaffold;
   }
 }

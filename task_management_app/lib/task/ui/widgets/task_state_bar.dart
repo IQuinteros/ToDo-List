@@ -32,6 +32,7 @@ class TaskStateBarInList{
     tasks.forEach((element) {
       tasksInList.add(TaskInList(
         task: element,
+        isDraggable: true,
       ));
     });
 
@@ -57,12 +58,24 @@ class TaskStateBarInList{
         break;
     }
 
-    final bar = DragTarget(
+    final bar = DragTarget<String>(
       builder: (BuildContext context, List<String> incoming, List rejected){
-        return Container(
+        return AnimatedContainer(
             alignment: Alignment.centerLeft,
+            padding: EdgeInsets.only(
+                left: 20,
+            ),
+            height: incoming.length > 0? 80 : 30,
+            duration: Duration(milliseconds: 500),
+            curve: Curves.fastOutSlowIn,
             margin: EdgeInsets.only(
-                left: 20
+                left: 20,
+              top: 5,
+              bottom: 5
+            ),
+            decoration: BoxDecoration(
+              color: Colors.black38.withOpacity(incoming.length > 0? 0.2 : 0),
+              borderRadius: BorderRadius.all(Radius.circular(20))
             ),
             child: Text(
               title,
@@ -76,11 +89,11 @@ class TaskStateBarInList{
         );
       },
       onWillAccept: (data) {
-        print('willAccept');
         return true;
       },
       onAccept: (data){
-        print('hola');
+        print(data.toString());
+        userBloc.updateStateTask(data, state);
       },
     );
 

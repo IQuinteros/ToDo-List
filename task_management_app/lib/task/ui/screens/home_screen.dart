@@ -40,7 +40,7 @@ class _HomeScreenState extends State<HomeScreen> {
       widget._taskBars.add(
           TaskStateBarInList(
               state: TaskState.Done,
-              context: context
+              context: context,
           )
       );
     }

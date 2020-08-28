@@ -36,6 +36,8 @@ class TaskCloudFirestoreRepository{
 
   Future<void> setDataTask(Task newData) async => _cloudFirestoreAPI.setDataTask(newData);
 
+  Future<void> updateStateTask(String idTask, TaskState newState) async => _cloudFirestoreAPI.updateStateTask(idTask, newState);
 
+  Future<void> removeTask(Task taskRef) => _cloudFirestoreAPI.removeTask(taskRef);
 
 }

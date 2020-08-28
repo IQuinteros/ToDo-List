@@ -1,3 +1,4 @@
+import 'package:flushbar/flushbar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:generic_bloc_provider/generic_bloc_provider.dart';
@@ -14,8 +15,11 @@ class AddScreen extends StatefulWidget {
 
   Task toAdd;
 
+  void Function(Task) onSaveTask;
+
   AddScreen({
-    @required this.toAdd
+    @required this.toAdd,
+    this.onSaveTask
   });
 
   @override
@@ -73,15 +77,36 @@ class _AddScreenState extends State<AddScreen> {
         );
 
         await userBloc.setDataTask(newData);
+
       }
+
+      try {
+        widget.onSaveTask(newData);
+
+      }catch(e){}
 
       Navigator.of(context).pop();
 
-      Scaffold.of(context).showSnackBar(
-          SnackBar(
-            content: Text("Tarea agregada exitósamente"),
-          )
-      );
+      Flushbar(
+        message: widget.toAdd == null? "Tarea agregada exitósamente" : "Tarea modificada exitósamente",
+        leftBarIndicatorColor: newData.getColor(),
+        padding: EdgeInsets.only(
+          top: 20,
+          bottom: 20,
+          left: 20
+        ),
+
+        boxShadows: [
+          BoxShadow(
+            color: Colors.black45,
+            offset: Offset(0, 2),
+            blurRadius: 2,
+          ),
+        ],
+        duration: Duration(seconds: 3),
+        forwardAnimationCurve: Curves.fastLinearToSlowEaseIn,
+        dismissDirection: FlushbarDismissDirection.HORIZONTAL,
+      ).show(context);
     }
     else{
       setState(() {
@@ -203,7 +228,10 @@ class _AddScreenState extends State<AddScreen> {
         content: new Text('No has guardado los cambios'),
         actions: <Widget>[
           new GestureDetector(
-            onTap: () => Navigator.of(context).pop(true),
+            onTap: () {
+              Navigator.of(context).pop(true);
+              Navigator.of(context).pop(true);
+            },
             child: Container(
               padding: EdgeInsets.all(10),
               child: Text("SIN GUARDAR"),

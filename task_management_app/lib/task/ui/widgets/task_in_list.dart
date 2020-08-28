@@ -5,8 +5,11 @@ import 'package:task_management_app/task/ui/screens/view_task_screen.dart';
 class TaskInList extends StatefulWidget {
   Task task;
 
+  bool isDraggable;
+
   TaskInList({
-    @required this.task
+    @required this.task,
+    this.isDraggable = false
   });
 
   @override
@@ -14,6 +17,9 @@ class TaskInList extends StatefulWidget {
 }
 
 class _TaskInListState extends State<TaskInList> {
+  var _x;
+  var _y;
+
   @override
   Widget build(BuildContext context) {
 
@@ -99,7 +105,7 @@ class _TaskInListState extends State<TaskInList> {
       ),
     );
 
-    return Draggable(
+    final draggable = LongPressDraggable<String>(
       child: toReturn,
       childWhenDragging: Container(
         margin: EdgeInsets.only(
@@ -139,7 +145,7 @@ class _TaskInListState extends State<TaskInList> {
         width: 250,
         height: 80,
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: Colors.white.withOpacity(0.8),
           borderRadius: BorderRadius.all(Radius.circular(20)),
           boxShadow: <BoxShadow>[
             BoxShadow(
@@ -150,6 +156,18 @@ class _TaskInListState extends State<TaskInList> {
           ]
         ),
       ),
+      data: widget.task.id,
+      onDragEnd: (dragDetails){
+        setState(() {
+          _x = dragDetails.offset.dx;
+          // if applicable, don't forget offsets like app/status bar
+          _y = dragDetails.offset.dy; //- appBarHeight - statusBarHeight;
+        });
+      },
+      feedbackOffset: Offset(-50, 0),
     );
+
+    return widget.isDraggable? draggable : toReturn;
+
   }
 }

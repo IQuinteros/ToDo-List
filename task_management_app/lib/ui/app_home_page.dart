@@ -7,6 +7,7 @@ import 'package:task_management_app/ui/screens/start_screen.dart';
 import 'package:task_management_app/ui/widgets/side_menu.dart';
 import 'package:task_management_app/user/model/user.dart';
 import 'package:task_management_app/user/ui/screens/user_login.dart';
+import 'package:task_management_app/user/ui/screens/user_profile_screen.dart';
 
 class AppHomePage extends StatefulWidget {
 
@@ -42,10 +43,15 @@ class _AppHomePageState extends State<AppHomePage> {
             body: UserLogin(),
           );
         }
-        else{
+        else if(snapshot.connectionState == ConnectionState.done || snapshot.connectionState == ConnectionState.active){
           // Run MainPage
-          User.snapshotToUser(snapshot, isCurrentUser: true);
+          User.snapshotToUser(snapshot, isCurrentUser: true, userBloc: userBloc);
+          print('LISTO STREAM');
+
           return HomeScreen();
+        }
+        else{
+          return StartScreen();
         }
       },
     );

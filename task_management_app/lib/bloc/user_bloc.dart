@@ -43,6 +43,10 @@ class UserBloc extends Bloc
     return isNew;
   }
 
+  // Obtener los nombres registrados del usuario
+  Future<bool> hasNamesData(User user) async => _cloudFirestoreRepository.hasNamesData(user);
+  Future<UserNames> getUserNames(User user) async => _cloudFirestoreRepository.getUserNames(user);
+
   // 2. Cerrar Sesión
   void signOut() async => _firebaseRepository.signOut();
 
@@ -59,7 +63,13 @@ class UserBloc extends Bloc
       displayName: firebaseUser.displayName,
       photoUrl: firebaseUser.photoUrl,
     );
-    User.setCurrentUser(userRef);
+
+    UserNames userNames = await getUserNames(userRef);
+
+    userRef.firstName = userNames.name;
+    userRef.lastName = userNames.lastName;
+
+    User.setCurrentUser(userRef, true);
 
     return userRef;
   }
@@ -78,6 +88,12 @@ class UserBloc extends Bloc
 
   // 8. Actualizar Nombre y Apellido
   Future<void> updateUserNames(String name, String lastName, String id) async => _cloudFirestoreRepository.updateUserNames(name, lastName, id);
+
+  // 9. Modificar SOLO EL ESTADO de una tarea
+  Future<void> updateStateTask(String idTask, TaskState newState) async => _tasksCloudFirestoreRepository.updateStateTask(idTask, newState);
+
+  // 10. Eliminar Tareas
+  Future<void> removeTask(Task taskRef) => _tasksCloudFirestoreRepository.removeTask(taskRef);
 
   @override
   void dispose() {

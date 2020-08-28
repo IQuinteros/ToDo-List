@@ -10,4 +10,8 @@ class UserCloudFirestoreRepository{
 
   Future<void> updateUserNames(String name, String lastName, String id) async => _cloudFirestoreAPI.updateUserNames(name, lastName, id);
 
+  Future<bool> hasNamesData(User user) async => _cloudFirestoreAPI.hasNamesData(user);
+
+  Future<UserNames> getUserNames(User user) async => _cloudFirestoreAPI.getUserNames(user);
+
 }
