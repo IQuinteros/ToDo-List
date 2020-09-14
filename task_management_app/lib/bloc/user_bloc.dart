@@ -19,23 +19,23 @@ class UserBloc extends Bloc
   final _tasksCloudFirestoreRepository = TaskCloudFirestoreRepository();
 
   // 1. Iniciar Sesión
-  Future<FirebaseUser> _signIn() async => _firebaseRepository.signIn();
+  Future<User> _signIn() async => _firebaseRepository.signIn();
 
   // 1.1. Registrar usuario en base de datos
-  Future<bool> _updateUserData(User user) => _cloudFirestoreRepository.updateUserDataFirestore(user);
+  Future<bool> _updateUserData(ZUser user) => _cloudFirestoreRepository.updateUserDataFirestore(user);
 
   // Iniciar Sesión Completo
   Future<bool> signInAndUpdate() async {
     bool isNew = false;
 
-    await _signIn().then((FirebaseUser user) async {
-
+    await _signIn().then((User user) async {
+      print('Signing');
       isNew = await _updateUserData(
-          User(
+          ZUser(
             id: user.uid,
             displayName: user.displayName,
             email: user.email,
-            photoUrl: user.photoUrl,
+            photoUrl: user.photoURL,
           )
       );
     }
@@ -44,20 +44,20 @@ class UserBloc extends Bloc
   }
 
   // Obtener los nombres registrados del usuario
-  Future<bool> hasNamesData(User user) async => _cloudFirestoreRepository.hasNamesData(user);
-  Future<UserNames> getUserNames(User user) async => _cloudFirestoreRepository.getUserNames(user);
+  Future<bool> hasNamesData(ZUser user) async => _cloudFirestoreRepository.hasNamesData(user);
+  Future<UserNames> getUserNames(ZUser user) async => _cloudFirestoreRepository.getUserNames(user);
 
   // 2. Cerrar Sesión
   void signOut() async => _firebaseRepository.signOut();
 
   // 3. Flujo de datos de estado
-  Stream<FirebaseUser> get authStatus => _firebaseRepository.authStatus;
-  Future<FirebaseUser> get currentUser => _firebaseRepository.currentUser;
+  Stream<User> get authStatus => _firebaseRepository.authStatus;
+  User get currentUser => _firebaseRepository.currentUser;
 
   // 4. Ver Datos del usuario
-  Future<User> getCurrentUser() async {
-    FirebaseUser firebaseUser = await currentUser;
-    User userRef = User(
+  Future<ZUser> getCurrentUser() async {
+    User firebaseUser = await currentUser;
+    ZUser userRef = ZUser(
       id: firebaseUser.uid,
       email: firebaseUser.email,
       displayName: firebaseUser.displayName,
@@ -69,7 +69,7 @@ class UserBloc extends Bloc
     userRef.firstName = userNames.name;
     userRef.lastName = userNames.lastName;
 
-    User.setCurrentUser(userRef, true);
+    ZUser.setCurrentUser(userRef, true);
 
     return userRef;
   }

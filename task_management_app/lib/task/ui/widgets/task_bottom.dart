@@ -21,7 +21,7 @@ class TaskBottom extends StatefulWidget {
 class _TaskBottomState extends State<TaskBottom> {
 
   UserBloc userBloc;
-  User user;
+  ZUser user;
 
   void _setTaskState(TaskState newState){
     widget.task.status = newState;
@@ -31,7 +31,7 @@ class _TaskBottomState extends State<TaskBottom> {
   @override
   Widget build(BuildContext context) {
     userBloc = BlocProvider.of<UserBloc>(context);
-    user = User.getCurrentUser;
+    user = ZUser.getCurrentUser;
 
     final backButton = InkWell(
       onTap:(){

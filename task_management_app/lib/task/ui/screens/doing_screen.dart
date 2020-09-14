@@ -19,7 +19,7 @@ class DoingScreen extends StatefulWidget {
 class _DoingScreenState extends State<DoingScreen> {
 
   UserBloc userBloc;
-  User user;
+  ZUser user;
   bool isEmpty = false;
 
   Widget listToDisplay(AsyncSnapshot snapshot){
@@ -40,7 +40,7 @@ class _DoingScreenState extends State<DoingScreen> {
   @override
   Widget build(BuildContext context) {
     userBloc = BlocProvider.of<UserBloc>(context);
-    user = User.getCurrentUser;
+    user = ZUser.getCurrentUser;
 
 
     final finalToDisplay = Stack(

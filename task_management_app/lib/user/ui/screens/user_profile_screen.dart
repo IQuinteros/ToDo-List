@@ -14,13 +14,13 @@ class UserProfileScreen extends StatefulWidget {
 
   final keyForm = GlobalKey<FormState>();
 
-  User initUser;
+  ZUser initUser;
 
   UserProfileScreen();
 
   @override
   _UserProfileScreenState createState() {
-    initUser = User.getCurrentUser;
+    initUser = ZUser.getCurrentUser;
 
     nameController.text = initUser.firstName;
     lastNameController.text = initUser.lastName;
@@ -33,13 +33,13 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
   bool _autoValidate = false;
 
   UserBloc userBloc;
-  User user;
+  ZUser user;
 
   @override
   Widget build(BuildContext context) {
 
     userBloc = BlocProvider.of<UserBloc>(context);
-    user = User.getCurrentUser;
+    user = ZUser.getCurrentUser;
 
     final button = IconButton(
       icon: Icon(

@@ -6,18 +6,20 @@ class FirebaseAPI{
   final GoogleSignIn googleSignIn = GoogleSignIn();
 
   // Iniciar sesión con Google
-  Future<FirebaseUser> signIn() async{
+  Future<User> signIn() async{
 
+    print('SignIn');
     // Iniciar con Google
     GoogleSignInAccount googleSignInAccount = await googleSignIn.signIn();
     GoogleSignInAuthentication gSA = await googleSignInAccount.authentication;
-
+    print('GoogleSignIn');
     // Iniciar en Firebase con Google
-    FirebaseUser user = await _auth.signInWithCredential(
-      GoogleAuthProvider.getCredential(idToken: gSA.idToken, accessToken: gSA.accessToken)
+    UserCredential user = await _auth.signInWithCredential(
+      GoogleAuthProvider.credential(idToken: gSA.idToken, accessToken: gSA.accessToken)
     );
+    print(user.user);
 
-    return user;
+    return user.user;
   }
 
   // Cerrar Sesión
@@ -29,10 +31,10 @@ class FirebaseAPI{
   }
 
   // Estado de la Sesión
-  Stream<FirebaseUser> _streamFirebase = FirebaseAuth.instance.onAuthStateChanged;
-  Stream<FirebaseUser> get authStatus => _streamFirebase;
+  Stream<User> _streamFirebase = FirebaseAuth.instance.onAuthStateChanged;
+  Stream<User> get authStatus => _streamFirebase;
 
   // Obtener usuario actual
-  Future<FirebaseUser> get currentUser => FirebaseAuth.instance.currentUser();
+  User get currentUser => FirebaseAuth.instance.currentUser;
 
 }

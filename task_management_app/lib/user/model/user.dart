@@ -9,11 +9,11 @@ class UserNames{
   UserNames(this.name, this.lastName);
 }
 
-class User
+class ZUser
 {
-  static User currentUser;
+  static ZUser currentUser;
   static get getCurrentUser => currentUser;
-  static setCurrentUser (User newUser, bool overwrite) {
+  static setCurrentUser (ZUser newUser, bool overwrite) {
     if(overwrite){
       currentUser = newUser;
     }
@@ -27,8 +27,8 @@ class User
   }
   static clearCurrentUser() => currentUser = null;
 
-  static Future<User> snapshotToUser(AsyncSnapshot snapshot, {bool isCurrentUser = true, @required UserBloc userBloc}) async {
-    User user = User(
+  static Future<ZUser> snapshotToUser(AsyncSnapshot snapshot, {bool isCurrentUser = true, @required UserBloc userBloc}) async {
+    ZUser user = ZUser(
       id: snapshot.data.uid,
       photoUrl: snapshot.data.photoUrl,
       email: snapshot.data.email,
@@ -60,7 +60,7 @@ class User
 
   List<Task> myTasks;
 
-  User({
+  ZUser({
     @required this.id,
     this.firstName,
     this.lastName,

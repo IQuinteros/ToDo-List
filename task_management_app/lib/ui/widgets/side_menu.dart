@@ -14,7 +14,7 @@ class SideMenu extends StatelessWidget {
   final IMAGE_SIZE = 90.0;
 
   UserBloc userBloc;
-  User userRef = User.getCurrentUser;
+  ZUser userRef = ZUser.getCurrentUser;
 
   Widget headerContentAsync(BuildContext context){
     final profileImage = Container(
@@ -214,7 +214,7 @@ class SideMenu extends StatelessWidget {
                           child: Text('Aceptar'),
                           onPressed: (){
                             userBloc.signOut();
-                            User.clearCurrentUser();
+                            ZUser.clearCurrentUser();
                             Navigator.of(context).pushNamedAndRemoveUntil('/init', (Route<dynamic> route) => false);
 
                           },

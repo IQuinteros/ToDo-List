@@ -12,7 +12,7 @@ class TaskStateBarInList{
 
   final TaskState state;
   UserBloc userBloc;
-  User user;
+  ZUser user;
   BuildContext context;
 
   bool isExpanded = false;
@@ -44,7 +44,7 @@ class TaskStateBarInList{
   ExpansionPanel build(){
 
     userBloc = BlocProvider.of<UserBloc>(context);
-    user = User.getCurrentUser;
+    user = ZUser.getCurrentUser;
 
     switch(state){
       case TaskState.ToDo:

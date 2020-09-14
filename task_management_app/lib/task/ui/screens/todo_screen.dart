@@ -19,7 +19,7 @@ class ToDoScreen extends StatefulWidget {
 class _ToDoScreenState extends State<ToDoScreen> {
 
   UserBloc userBloc;
-  User user;
+  ZUser user;
   bool isEmpty = false;
 
   Widget listToDisplay(AsyncSnapshot snapshot){
@@ -41,7 +41,7 @@ class _ToDoScreenState extends State<ToDoScreen> {
   Widget build(BuildContext context) {
 
     userBloc = BlocProvider.of<UserBloc>(context);
-    user = User.getCurrentUser;
+    user = ZUser.getCurrentUser;
 
     final finalToDisplay = Stack(
       children: [

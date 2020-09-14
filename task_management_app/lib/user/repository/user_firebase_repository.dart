@@ -7,13 +7,13 @@ class UserFirebaseRepository{
   final _firebaseAuthAPI = FirebaseAPI();
 
   // Iniciar Sesión
-  Future<FirebaseUser> signIn() async => _firebaseAuthAPI.signIn();
+  Future<User> signIn() async => _firebaseAuthAPI.signIn();
 
   // Cerrar Sesión
   void signOut() async => _firebaseAuthAPI.signOut();
 
   // Estado de la Sesión
-  Stream<FirebaseUser> get authStatus => _firebaseAuthAPI.authStatus;
-  Future<FirebaseUser> get currentUser => _firebaseAuthAPI.currentUser;
+  Stream<User> get authStatus => _firebaseAuthAPI.authStatus;
+  User get currentUser => _firebaseAuthAPI.currentUser;
 
 }

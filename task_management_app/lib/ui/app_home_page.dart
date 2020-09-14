@@ -45,7 +45,7 @@ class _AppHomePageState extends State<AppHomePage> {
         }
         else if(snapshot.connectionState == ConnectionState.done || snapshot.connectionState == ConnectionState.active){
           // Run MainPage
-          User.snapshotToUser(snapshot, isCurrentUser: true, userBloc: userBloc);
+          ZUser.snapshotToUser(snapshot, isCurrentUser: true, userBloc: userBloc);
           print('LISTO STREAM');
 
           return HomeScreen();

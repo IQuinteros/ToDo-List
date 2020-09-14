@@ -54,6 +54,7 @@ class _GoogleButtonState extends State<GoogleButton> {
         setState(() {
           widget.loading = true;
         });
+        print('Google');
         userBloc.signInAndUpdate().catchError((value) {
           setState(() {
             widget.loading = false;

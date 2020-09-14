@@ -44,13 +44,13 @@ class Task
     List<Task> tasks = List();
     tasksSnapshot.forEach((element) {
       tasks.add(Task(
-        id: element.documentID,
-        name: element['name'],
-        status: Task.stringToState(element['status']),
-        userOwner: element['userOwner'].toString(),
-        color: element['color'],
-        finishDate: new DateTime.fromMillisecondsSinceEpoch(element['finishDate']),
-        detail: element['detail']
+        id: element.id,
+        name: element.data()['name'],
+        status: Task.stringToState(element.data()['status']),
+        userOwner: element.data()['userOwner'].toString(),
+        color: element.data()['color'],
+        finishDate: new DateTime.fromMillisecondsSinceEpoch(element.data()['finishDate']),
+        detail: element.data()['detail']
       ));
     });
 
