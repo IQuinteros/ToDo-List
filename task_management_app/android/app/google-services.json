@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "681575986357",
+    "firebase_url": "https://zs-tasks.firebaseio.com",
+    "project_id": "zs-tasks",
+    "storage_bucket": "zs-tasks.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:681575986357:android:24df95d49b32c2ca9efafc",
+        "android_client_info": {
+          "package_name": "com.zeaksoftware.task_management_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "681575986357-tkuprl2rerma7vqrg76fmo613cmpr79t.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.zeaksoftware.task_management_app",
+            "certificate_hash": "b5ce4dd59cabbc0cb7ea5f0db45857a9466941ca"
+          }
+        },
+        {
+          "client_id": "681575986357-701tmsn2eu88f9hbb7ced3h36hkdbdqn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDnPGDRTdPhc5xI-DsE6xIsyYCsswFZhSA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "681575986357-701tmsn2eu88f9hbb7ced3h36hkdbdqn.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
